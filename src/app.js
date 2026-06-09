@@ -1626,7 +1626,7 @@ ${result.disclaimer}`;
               </section>
               <section class="card">
                 <h2>参考案例</h2>
-                <p class="subcopy">案例库为课程项目模拟案例，用于学习分析，不代表真实品牌投放素材。</p>
+                <p class="subcopy">案例库为模拟案例，用于分析文案结构与转化机制，不代表真实品牌投放素材。</p>
                 <div class="risk-list">${(result.caseReferences || []).map(item => `
                   <article class="risk-item low">
                     <p class="sentence">${TextToolkit.escapeHtml(item.title || item.industry || "参考案例")} · ${TextToolkit.escapeHtml(item.platform || "")}</p>
@@ -2200,35 +2200,32 @@ ${result.disclaimer}`;
             && (filters.platform === "全部" || item.platform === filters.platform)
             && (filters.style === "全部" || item.style === filters.style);
         });
-        const selected = cases.find(item => item.id === this.appState.selectedCaseId) || filtered[0] || cases[0];
-
         if (!cases.length) {
           grid.innerHTML = `
             <section class="card">
               <h2>案例库加载中</h2>
-              <p class="subcopy">${TextToolkit.escapeHtml(this.appState.caseLibraryNote || "正在读取课程项目模拟案例。")}</p>
+              <p class="subcopy">${TextToolkit.escapeHtml(this.appState.caseLibraryNote || "正在读取模拟案例库。")}</p>
             </section>
           `;
           return;
         }
 
         grid.innerHTML = `
-          <section class="case-browser">
-            <aside class="case-filter-panel">
-              <span class="section-label">课程项目模拟案例</span>
-              <h2>案例库浏览</h2>
-              <p class="subcopy">${TextToolkit.escapeHtml(this.appState.caseLibraryNote || "案例库为课程项目模拟案例，用于学习分析，不代表真实品牌投放素材。")}</p>
+          <section class="case-library-shell">
+            <aside class="case-filter-strip">
+              <div>
+                <span class="section-label">模拟案例库</span>
+                <h2>优秀案例浏览</h2>
+                <p class="subcopy">${TextToolkit.escapeHtml(this.appState.caseLibraryNote || "案例库为模拟案例，用于分析文案结构与转化机制，不代表真实品牌投放素材。")}</p>
+              </div>
               ${this.filterSelect("行业", "industry", filters.industry, options("industry"))}
               ${this.filterSelect("平台", "platform", filters.platform, options("platform"))}
               ${this.filterSelect("营销风格", "style", filters.style, options("style"))}
               <div class="case-count"><strong>${filtered.length}</strong><span>个匹配案例</span></div>
             </aside>
-            <div class="case-list">
-              ${filtered.map(item => this.caseListCard(item)).join("") || `<article class="card"><p class="subcopy">暂无匹配案例，请调整筛选条件。</p></article>`}
+            <div class="case-story-scroll">
+              ${filtered.map((item, index) => this.caseShowcaseCard(item, index, filtered.length)).join("") || `<article class="card"><p class="subcopy">暂无匹配案例，请调整筛选条件。</p></article>`}
             </div>
-            <aside class="case-detail-card">
-              ${selected ? this.caseDetail(selected) : ""}
-            </aside>
           </section>
         `;
       },
@@ -2261,11 +2258,39 @@ ${result.disclaimer}`;
           </article>
         `;
       },
+      caseShowcaseCard(item, index, total) {
+        return `
+          <article class="case-showcase-card" id="case-${TextToolkit.escapeHtml(item.id)}">
+            <div class="case-showcase-main">
+              <div class="case-index">${String(index + 1).padStart(2, "0")} / ${total}</div>
+              <div class="tag-row">
+                <span class="tag">${TextToolkit.escapeHtml(item.industry)}</span>
+                <span class="tag">${TextToolkit.escapeHtml(item.platform)}</span>
+                <span class="tag">${TextToolkit.escapeHtml(item.style)}</span>
+              </div>
+              <h2>${TextToolkit.escapeHtml(item.title)}</h2>
+              <p class="subcopy">${TextToolkit.escapeHtml(item.scenario)}</p>
+              <blockquote>${TextToolkit.escapeHtml(item.copy)}</blockquote>
+              <div class="case-actions inline">
+                <button class="primary-btn" type="button" data-case-apply="${TextToolkit.escapeHtml(item.id)}">套用这个结构</button>
+              </div>
+            </div>
+            <div class="case-showcase-analysis">
+              <p class="subcopy">模拟案例，不代表真实品牌投放素材。</p>
+              ${this.caseAnalysisBlock("为什么有效", item.whyItWorks)}
+              ${this.caseAnalysisBlock("信任机制", item.trustMechanisms)}
+              ${this.caseAnalysisBlock("转化机制", item.conversionMechanisms)}
+              ${this.caseAnalysisBlock("可复用结构", item.usablePatterns)}
+              ${this.caseAnalysisBlock("应避免表达", item.avoidPatterns)}
+            </div>
+          </article>
+        `;
+      },
       caseDetail(item) {
         return `
           <span class="section-label">完整分析</span>
           <h2>${TextToolkit.escapeHtml(item.title)}</h2>
-          <p class="subcopy">课程项目模拟案例，不代表真实品牌投放素材。</p>
+          <p class="subcopy">模拟案例，不代表真实品牌投放素材。</p>
           <blockquote>${TextToolkit.escapeHtml(item.copy)}</blockquote>
           ${this.caseAnalysisBlock("为什么有效", item.whyItWorks)}
           ${this.caseAnalysisBlock("信任机制", item.trustMechanisms)}
@@ -2379,15 +2404,15 @@ ${result.disclaimer}`;
           <article class="about-card wide">
             <span class="section-label">产品定位</span>
             <h2>消费者信任与广告转化优化官</h2>
-            <p class="subcopy">AdTrust AI 面向数字营销课程现场演示，帮助用户输入文案或图片素材后，生成消费者画像、五维营销评分、信任阻碍点、转化损耗点和多风格改写文案。</p>
+            <p class="subcopy">AdTrust AI 面向品牌营销、内容创作、电商运营和私域转化场景，帮助用户输入文案或图片素材后，生成消费者画像、五维营销评分、信任阻碍点、转化损耗点和多风格改写文案。</p>
           </article>
           <article class="about-card">
             <h2>模拟使用场景</h2>
-            <p class="subcopy">用户现场输入广告文案、上传海报图片，系统完成图片文字提取、案例匹配、规则引用、诊断报告和改写追问，适合产品汇报、作业演示和答辩PPT。</p>
+            <p class="subcopy">运营人员输入广告文案或上传海报图片，系统完成图片文字提取、案例匹配、规则引用、诊断报告和改写追问，适合投放前评估、素材复盘、跨团队沟通和 A/B 测试准备。</p>
           </article>
           <article class="about-card">
             <h2>目标用户</h2>
-            <p class="subcopy">品牌营销人员、中小商家、内容创作者、校园创业团队和数字营销课程学生。</p>
+            <p class="subcopy">品牌营销人员、中小商家、内容创作者、本地生活商家、电商运营、私域运营和 MCN 内容团队。</p>
           </article>
           <article class="about-card wide">
             <h2>技术架构</h2>
@@ -2395,9 +2420,9 @@ ${result.disclaimer}`;
               ${this.architectureItem("前端", "原生 ES Module + 组件化 UI，负责输入流程、图片预览、报告展示、案例库筛选和改写工作室。")}
               ${this.architectureItem("后端", "Express API，提供 /api/audit、/api/rewrite-chat、/api/extract-image、/api/cases、/api/legal-rules、/api/platform-rules。")}
               ${this.architectureItem("DeepSeek API", "服务端通过环境变量读取 Key，前端不接触密钥；未连通时自动进入本地演示模式。")}
-              ${this.architectureItem("OCR/图片识别", "本地 OCR 与手动兜底结合，图片文字进入诊断上下文，支持课堂现场继续演示。")}
-              ${this.architectureItem("案例库", `${caseCount} 个课程项目模拟案例，提供可复用文案结构、信任机制和转化机制。`)}
-              ${this.architectureItem("法律文本库", `${legalCount} 条课程整理规则摘要，只提供风险提示和表达建议，不构成法律意见。`)}
+              ${this.architectureItem("OCR/图片识别", "本地 OCR 与手动兜底结合，图片文字进入诊断上下文，支持图片广告素材分析。")}
+              ${this.architectureItem("案例库", `${caseCount} 个模拟优秀案例，提供可复用文案结构、信任机制和转化机制。`)}
+              ${this.architectureItem("法律文本库", `${legalCount} 条规则摘要，只提供风险提示和表达建议，不构成法律意见。`)}
               ${this.architectureItem("平台规则库", `${platformCount} 个平台表达策略摘要，用于生成平台适配建议，不代表平台审核结论。`)}
             </div>
           </article>
@@ -2426,11 +2451,11 @@ ${result.disclaimer}`;
           </article>
           <article class="about-card">
             <h2>有效性测试方案</h2>
-            <p class="subcopy">准备美妆、食品、教育、AI工具等样本，对比原文与优化文案在可信度、吸引力、圈层匹配和行动意愿上的变化，并记录课堂评审反馈。</p>
+            <p class="subcopy">准备美妆、食品、教育、AI工具等多行业样本，对比原文与优化文案在可信度、吸引力、圈层匹配和行动意愿上的变化，并记录不同人群的选择反馈。</p>
           </article>
           <article class="about-card">
             <h2>推广管理策略</h2>
-            <p class="subcopy">先用于课程作业和模拟演示，再扩展到校园创业团队、内容创作者、本地商家和中小品牌营销团队。</p>
+            <p class="subcopy">先面向中小品牌、内容创作者、本地生活商家和私域团队，再扩展到电商运营、MCN机构和品牌营销团队。</p>
           </article>
           <article class="about-card wide">
             <h2>隐私与免责声明</h2>

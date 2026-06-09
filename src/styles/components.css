@@ -43,6 +43,7 @@
         radial-gradient(circle at 82% 18%, rgba(23, 195, 178, 0.10), transparent 24%),
         linear-gradient(180deg, #f8fbff 0%, var(--bg) 40%, #ffffff 100%);
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      overflow-x: hidden;
     }
 
     button,
@@ -80,6 +81,7 @@
       align-items: center;
       gap: 12px;
       min-width: 250px;
+      min-width: 0;
     }
 
     .brand-mark {
@@ -134,6 +136,7 @@
       max-width: 1360px;
       margin: 0 auto;
       padding: 28px 32px 72px;
+      min-width: 0;
     }
 
     .page.active {
@@ -142,9 +145,13 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 55fr) minmax(360px, 45fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 28px;
       align-items: stretch;
+      min-height: calc(100vh - 86px);
+    }
+
+    .cover-hero {
       min-height: calc(100vh - 86px);
     }
 
@@ -172,6 +179,7 @@
       color: #fff;
       position: relative;
       overflow: hidden;
+      min-height: min(760px, calc(100vh - 142px));
     }
 
     .hero-main::after {
@@ -284,6 +292,8 @@
       display: grid;
       gap: 22px;
       align-content: center;
+      width: min(100%, 1120px);
+      margin: 0 auto;
       padding: clamp(26px, 3vw, 38px);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.88)),
@@ -291,6 +301,12 @@
       border: 1px solid rgba(148, 163, 184, 0.26);
       border-radius: 24px;
       box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
+    }
+
+    .report-preview-section {
+      display: grid;
+      align-items: center;
+      min-height: calc(100vh - 92px);
     }
 
     .preview-head {
@@ -322,7 +338,8 @@
 
     .preview-bars {
       display: grid;
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 22px;
     }
 
     .preview-metric {
@@ -732,6 +749,7 @@
       display: grid;
       gap: 24px;
       padding: 28px;
+      min-width: 0;
     }
 
     .form-grid {
@@ -851,13 +869,29 @@
 
     .input-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      grid-template-columns: minmax(280px, 0.78fr) minmax(420px, 1fr);
       gap: 18px;
+      align-items: start;
+      min-width: 0;
     }
 
     .field-stack {
       display: grid;
       gap: 14px;
+      min-width: 0;
+    }
+
+    .creative-fields,
+    .ad-text-field,
+    #adText {
+      position: relative;
+      z-index: 2;
+    }
+
+    #adText {
+      min-height: 420px;
+      pointer-events: auto;
+      user-select: text;
     }
 
     input,
@@ -1836,6 +1870,102 @@
       align-items: start;
     }
 
+    .case-library-shell {
+      display: grid;
+      gap: 28px;
+    }
+
+    .case-filter-strip {
+      position: sticky;
+      top: 86px;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) repeat(3, minmax(160px, 0.42fr)) auto;
+      gap: 16px;
+      align-items: end;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .case-story-scroll {
+      display: grid;
+      gap: 34px;
+    }
+
+    .case-showcase-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.62fr);
+      gap: 24px;
+      align-items: stretch;
+      min-height: calc(100vh - 190px);
+      padding: 24px;
+      background:
+        radial-gradient(circle at 86% 10%, rgba(23, 195, 178, 0.10), transparent 34%),
+        #fff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 112px;
+    }
+
+    .case-showcase-main,
+    .case-showcase-analysis {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .case-showcase-main {
+      padding: clamp(20px, 3vw, 34px);
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(255, 176, 32, 0.28), transparent 28%),
+        linear-gradient(135deg, var(--deep-space), #172554 48%, var(--indigo));
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .case-showcase-main h2 {
+      max-width: 760px;
+      margin: 0;
+      color: #fff;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.12;
+    }
+
+    .case-showcase-main .subcopy,
+    .case-showcase-main blockquote {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .case-showcase-main blockquote {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(23, 195, 178, 0.52);
+    }
+
+    .case-index {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .case-actions.inline {
+      display: flex;
+      min-width: 0;
+    }
+
+    .case-showcase-analysis {
+      padding: clamp(18px, 2.2vw, 28px);
+      background: rgba(246, 248, 252, 0.86);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+    }
+
     .case-filter-panel,
     .case-detail-card {
       display: grid;
@@ -2186,9 +2316,12 @@
       .simulation-mode .simulation-stepbar,
       .simulation-mode .summary-band.featured,
       .form-grid,
+      .input-grid,
       .report-grid,
       .rewrite-studio-layout,
       .case-browser,
+      .case-filter-strip,
+      .case-showcase-card,
       .summary-band {
         grid-template-columns: 1fr;
       }
@@ -2196,7 +2329,8 @@
       .rewrite-summary-panel,
       .rewrite-tabs,
       .case-filter-panel,
-      .case-detail-card {
+      .case-detail-card,
+      .case-filter-strip {
         position: static;
       }
 
@@ -2235,8 +2369,41 @@
         flex-direction: column;
       }
 
+      .brand {
+        width: 100%;
+      }
+
+      .nav {
+        width: 100%;
+        padding-bottom: 2px;
+      }
+
       .page {
         padding: 12px;
+      }
+
+      .hero,
+      .cover-hero,
+      .report-preview-section {
+        min-height: auto;
+      }
+
+      .hero-main {
+        min-height: calc(100vh - 150px);
+        border-radius: 24px;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .hero-actions .primary-btn,
+      .hero-actions .secondary-btn {
+        width: 100%;
+      }
+
+      .stage-body {
+        padding: 18px;
       }
 
       .process-grid,
@@ -2247,6 +2414,8 @@
       .simulation-steps,
       .simulation-case-grid,
       .case-row-card,
+      .case-filter-strip,
+      .case-showcase-card,
       .architecture-grid,
       .image-analysis-grid,
       .example-grid,
@@ -2260,6 +2429,21 @@
       .score-pair,
       .compare,
       .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .case-showcase-card {
+        min-height: auto;
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      .case-showcase-main,
+      .case-showcase-analysis {
+        border-radius: 18px;
+      }
+
+      .preview-bars {
         grid-template-columns: 1fr;
       }
 

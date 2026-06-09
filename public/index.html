@@ -30,38 +30,42 @@
     <main>
       <section class="page active" id="home">
         <div class="home-stack">
-        <div class="hero">
-          <div class="hero-main">
-            <span class="section-label">AI营销诊断与改写工作台</span>
-            <h1>让广告更可信，也更能打动消费者</h1>
-            <p class="subcopy">输入文案或上传广告图片，AI 将识别消费者画像、判断信任与转化潜力，并生成可直接使用的多风格营销文案。</p>
-            <div class="hero-actions">
-              <button class="primary-btn" data-page="workspace">开始现场诊断</button>
-              <button class="primary-btn gold" data-enter-simulation>进入模拟演示模式</button>
-              <button class="secondary-btn" data-page="examples">查看优秀案例库</button>
+          <div class="hero cover-hero">
+            <div class="hero-main">
+              <span class="section-label">AI营销诊断与改写工作台</span>
+              <h1>让广告更可信，也更能打动消费者</h1>
+              <p class="subcopy">输入文案或上传广告图片，AI 将识别消费者画像、判断信任与转化潜力，并生成可直接使用的多风格营销文案。</p>
+              <div class="hero-actions">
+                <button class="primary-btn" data-page="workspace">开始现场诊断</button>
+                <button class="primary-btn gold" data-enter-simulation>进入模拟演示模式</button>
+                <button class="secondary-btn" data-page="examples">查看优秀案例库</button>
+              </div>
+              <div class="connection-pill" id="deepseekStatus" data-deepseek-status>正在检测 DeepSeek 连接状态</div>
             </div>
-            <div class="connection-pill" id="deepseekStatus" data-deepseek-status>正在检测 DeepSeek 连接状态</div>
           </div>
-          <aside class="report-preview-card">
-            <div class="preview-head">
-              <span class="section-label">营销诊断报告预览</span>
-              <strong>现场演示样例</strong>
-            </div>
-            <div class="preview-score">
-              <span>综合营销潜力</span>
-              <strong>82</strong>
-            </div>
-            <div class="preview-bars">
-              <div class="preview-metric"><span>消费者信任度</span><em style="--w:78%;--c:var(--trust-cyan)"></em><strong>78</strong></div>
-              <div class="preview-metric"><span>转化吸引力</span><em style="--w:86%;--c:var(--conversion-gold)"></em><strong>86</strong></div>
-              <div class="preview-metric"><span>圈层匹配度</span><em style="--w:80%;--c:var(--creative-purple)"></em><strong>80</strong></div>
-              <div class="preview-metric"><span>卖点清晰度</span><em style="--w:84%;--c:var(--indigo)"></em><strong>84</strong></div>
-              <div class="preview-metric"><span>合规安全度</span><em style="--w:76%;--c:var(--risk-rose)"></em><strong>76</strong></div>
-            </div>
-            <p class="preview-note">从“文案是否可信”到“用户是否愿意行动”，一屏看懂优化优先级。</p>
-          </aside>
-        </div>
-        <section class="home-section">
+
+          <section class="home-section report-preview-section">
+            <aside class="report-preview-card">
+              <div class="preview-head">
+                <span class="section-label">营销诊断报告预览</span>
+                <strong>五维营销评分样例</strong>
+              </div>
+              <div class="preview-score">
+                <span>综合营销潜力</span>
+                <strong>82</strong>
+              </div>
+              <div class="preview-bars">
+                <div class="preview-metric"><span>消费者信任度</span><em style="--w:78%;--c:var(--trust-cyan)"></em><strong>78</strong></div>
+                <div class="preview-metric"><span>转化吸引力</span><em style="--w:86%;--c:var(--conversion-gold)"></em><strong>86</strong></div>
+                <div class="preview-metric"><span>圈层匹配度</span><em style="--w:80%;--c:var(--creative-purple)"></em><strong>80</strong></div>
+                <div class="preview-metric"><span>卖点清晰度</span><em style="--w:84%;--c:var(--indigo)"></em><strong>84</strong></div>
+                <div class="preview-metric"><span>合规安全度</span><em style="--w:76%;--c:var(--risk-rose)"></em><strong>76</strong></div>
+              </div>
+              <p class="preview-note">从“文案是否可信”到“用户是否愿意行动”，一屏看懂优化优先级。</p>
+            </aside>
+          </section>
+
+          <section class="home-section">
           <div class="home-section-head">
             <span class="section-label">核心能力</span>
             <h2>现场可用的 AI 营销工作流</h2>
@@ -72,8 +76,8 @@
             <article class="capability-card"><span>03</span><h3>案例参考</h3><p>匹配优秀案例库，提取可复用的文案结构和圈层表达。</p></article>
             <article class="capability-card"><span>04</span><h3>对话改写</h3><p>支持连续追问，例如“更像小红书”“保留紧迫感”“写得更短”。</p></article>
           </div>
-        </section>
-        <section class="home-section">
+          </section>
+          <section class="home-section">
           <div class="home-section-head">
             <span class="section-label">模拟演示流程</span>
             <h2>从素材到报告，适合现场演示</h2>
@@ -86,7 +90,7 @@
             <span>对话追问</span>
             <span>导出报告</span>
           </div>
-        </section>
+          </section>
         </div>
       </section>
 
@@ -158,8 +162,8 @@
                     <label>核心卖点<textarea id="sellingPoints" maxlength="1200" placeholder="每行一个卖点，例如：肤感清爽、适合通勤、活动期赠送体验装"></textarea></label>
                     <label>证明材料，可选<textarea id="proofMaterials" maxlength="1200" placeholder="例如：检测报告、用户评价、销量数据、成分说明、活动规则"></textarea></label>
                   </div>
-                  <div class="field-stack">
-                    <label>广告文案<textarea id="adText" maxlength="5000" placeholder="请粘贴广告文案、种草笔记、短视频脚本或直播话术"></textarea></label>
+                  <div class="field-stack creative-fields">
+                    <label class="ad-text-field">广告文案<textarea id="adText" maxlength="5000" placeholder="请粘贴广告文案、种草笔记、短视频脚本或直播话术"></textarea></label>
                     <div class="textarea-meta"><span>请勿输入身份证号、手机号、客户名单、合同、未公开商业机密等敏感信息。</span><strong id="charCount">0 / 5000</strong></div>
                     <label>广告目标<select id="adGoal">
                       <option value="seeding">种草</option>
@@ -349,7 +353,7 @@
             <div>
               <span class="section-label">优秀案例</span>
               <h1>优秀案例库浏览</h1>
-              <p class="subcopy">按行业、平台和营销风格筛选课程项目模拟案例，查看可复用结构，并套用到改写工作室。</p>
+              <p class="subcopy">按行业、平台和营销风格筛选模拟案例，查看可复用结构，并套用到改写工作室。</p>
             </div>
           </div>
           <div class="stage-body">
@@ -363,7 +367,7 @@
           <div class="stage-head">
             <div>
               <span class="section-label">项目说明</span>
-              <h1>面向数字营销课程的产品化工具</h1>
+              <h1>面向真实营销流程的产品化工具</h1>
               <p class="subcopy">差异化方向是消费者信任诊断与广告转化优化，而不是简单生成广告文案。</p>
             </div>
           </div>
@@ -375,7 +379,7 @@
               </article>
               <article class="about-card">
                 <h2>目标用户</h2>
-                <p class="subcopy">品牌营销人员、中小商家、内容创作者、校园创业者和数字营销课程学生。</p>
+                <p class="subcopy">品牌营销人员、中小商家、内容创作者、本地生活商家、电商运营和私域运营团队。</p>
               </article>
               <article class="about-card">
                 <h2>产品边界</h2>
@@ -395,7 +399,7 @@
               </article>
               <article class="about-card">
                 <h2>推广管理策略</h2>
-                <p class="subcopy">先面向课程学生和校园创业者，再扩展到创作者、本地商家、MCN机构和品牌营销团队。</p>
+                <p class="subcopy">先面向中小品牌、内容创作者、本地生活商家和私域团队，再扩展到电商运营、MCN机构和品牌营销团队。</p>
               </article>
               <article class="about-card">
                 <h2>免责声明</h2>
