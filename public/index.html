@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AdTrust AI 消费者信任与广告转化优化官</title>
-  <link rel="stylesheet" href="/src/styles/theme.css">
-  <link rel="stylesheet" href="/src/styles/base.css">
-  <link rel="stylesheet" href="/src/styles/layout.css">
-  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/theme.css?v=20260609b">
+  <link rel="stylesheet" href="/src/styles/base.css?v=20260609b">
+  <link rel="stylesheet" href="/src/styles/layout.css?v=20260609b">
+  <link rel="stylesheet" href="/src/styles/components.css?v=20260609b">
 </head>
 <body>
   <div class="app">
@@ -146,7 +146,8 @@
                     </div>
                   </section>
                   <div class="field-stack creative-fields primary-copy-panel">
-                    <label class="ad-text-field">广告文案<textarea id="adText" maxlength="5000" placeholder="请粘贴广告文案、种草笔记、短视频脚本或直播话术"></textarea></label>
+                    <label class="copy-label" for="adText">广告文案</label>
+                    <textarea id="adText" class="ad-text-field" maxlength="5000" placeholder="请粘贴广告文案、种草笔记、短视频脚本或直播话术" autocomplete="off" spellcheck="false"></textarea>
                     <div class="textarea-meta"><span>请勿输入身份证号、手机号、客户名单、合同、未公开商业机密等敏感信息。</span><strong id="charCount">0 / 5000</strong></div>
                   </div>
                   <div class="field-stack product-fields">
@@ -416,7 +417,7 @@
   <button class="secondary-btn presentation-exit" type="button" id="presentationExitBtn">退出模拟演示</button>
   <div class="toast" id="toast"></div>
 
-  <script type="module" src="/src/app.js"></script>
+  <script type="module" src="/src/app.js?v=20260609b"></script>
 </body>
 </html>
 

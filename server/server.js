@@ -37,8 +37,18 @@ if (!isProduction) {
 app.use(express.json({ limit: "8mb" }));
 app.use(express.urlencoded({ extended: true, limit: "8mb" }));
 
-app.use(express.static(PUBLIC_DIR));
-app.use("/src", express.static(SRC_DIR));
+const noStoreStatic = {
+  etag: false,
+  lastModified: false,
+  setHeaders(res) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+  }
+};
+
+app.use(express.static(PUBLIC_DIR, noStoreStatic));
+app.use("/src", express.static(SRC_DIR, noStoreStatic));
 app.use("/assets", express.static(path.join(PUBLIC_DIR, "assets")));
 
 app.use("/api/health", healthRouter);
@@ -49,8 +59,15 @@ app.use("/api/cases", casesRouter);
 app.use("/api/legal-rules", legalRulesRouter);
 app.use("/api/platform-rules", platformRulesRouter);
 
-app.get("/", (req, res) => {
+function sendIndex(res) {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
   res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+}
+
+app.get("/", (req, res) => {
+  sendIndex(res);
 });
 
 app.use((req, res) => {
@@ -62,7 +79,7 @@ app.use((req, res) => {
     });
     return;
   }
-  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+  sendIndex(res);
 });
 
 app.use((error, req, res, next) => {

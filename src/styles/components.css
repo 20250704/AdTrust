@@ -773,6 +773,13 @@
       font-weight: 800;
     }
 
+    .copy-label {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
     textarea,
     select {
       width: 100%;
@@ -919,6 +926,7 @@
       user-select: text;
       -webkit-user-select: text;
       touch-action: manipulation;
+      cursor: text;
     }
 
     input,
