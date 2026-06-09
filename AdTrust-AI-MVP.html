@@ -1,0 +1,3632 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdTrust AI 消费者信任与广告转化优化官</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef5fa;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe5ef;
+      --navy: #0B1026;
+      --indigo: #3547FF;
+      --trust-cyan: #17C3B2;
+      --conversion-gold: #FFB020;
+      --risk-rose: #FF5A7A;
+      --soft-blue: #EEF4FF;
+      --soft-cyan: #E7FFFB;
+      --soft-gold: #FFF6E0;
+      --soft-rose: #FFF0F3;
+      --primary: var(--indigo);
+      --primary-dark: var(--navy);
+      --primary-soft: #eaf1ff;
+      --amber: var(--conversion-gold);
+      --red: var(--risk-rose);
+      --blue: var(--indigo);
+      --green: var(--trust-cyan);
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 250px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(145deg, var(--navy), var(--indigo));
+      border-radius: 12px;
+      box-shadow: 0 12px 22px rgba(30, 58, 138, 0.22);
+      font-weight: 900;
+    }
+
+    .brand-title {
+      display: block;
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .nav button {
+      min-height: 36px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: transparent;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .nav button.active {
+      color: #fff;
+      background: var(--primary-dark);
+    }
+
+    .page {
+      display: none;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 22px;
+      align-items: stretch;
+      min-height: calc(100vh - 86px);
+    }
+
+    .hero-main,
+    .panel {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      display: grid;
+      align-content: center;
+      padding: clamp(28px, 5vw, 66px);
+      background:
+        radial-gradient(circle at 86% 16%, rgba(255, 176, 32, 0.24), transparent 28%),
+        radial-gradient(circle at 18% 82%, rgba(23, 195, 178, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--navy), #1b2a70 58%, var(--indigo));
+      color: #fff;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 28px;
+      margin-bottom: 16px;
+      padding: 0 10px;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      border: 1px solid #d6e4ff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin-bottom: 18px;
+      font-size: clamp(40px, 5vw, 48px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .subcopy {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .hero-main .subcopy {
+      max-width: 760px;
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .hero-main h1,
+    .hero-main h2 {
+      color: #fff;
+    }
+
+    .hero-main .section-label {
+      color: #dffcf8;
+      background: rgba(23, 195, 178, 0.16);
+      border-color: rgba(23, 195, 178, 0.32);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .value-card {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    .value-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      place-items: center;
+      color: var(--navy);
+      background: linear-gradient(135deg, var(--trust-cyan), #dffcf8);
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .home-disclaimer {
+      margin-top: 26px;
+      padding-top: 18px;
+      color: rgba(255, 255, 255, 0.72);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .history-item {
+      display: grid;
+      gap: 6px;
+      width: 100%;
+      padding: 12px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .history-item strong {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .history-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .icon-btn {
+      min-height: 44px;
+      border-radius: 12px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .primary-btn {
+      padding: 0 20px;
+      color: #fff;
+      background: var(--primary-dark);
+      font-weight: 900;
+      box-shadow: 0 14px 24px rgba(23, 63, 57, 0.22);
+    }
+
+    .secondary-btn {
+      padding: 0 16px;
+      color: var(--primary-dark);
+      background: #edf3ef;
+      border: 1px solid #d5dfd8;
+      font-weight: 800;
+    }
+
+    .icon-btn {
+      display: grid;
+      width: 44px;
+      place-items: center;
+      color: var(--primary-dark);
+      background: #edf3ef;
+      border: 1px solid #d5dfd8;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .flow-card {
+      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .flow-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .flow-list li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      background: #f7f9f6;
+      border: 1px solid #e4e9e5;
+      border-radius: 8px;
+    }
+
+    .flow-index {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 8px;
+      font-weight: 900;
+    }
+
+    .flow-list strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .flow-list span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .step-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .stepper {
+      position: sticky;
+      top: 82px;
+      align-self: start;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .stepper button {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 54px;
+      margin-bottom: 8px;
+      padding: 8px;
+      color: var(--muted);
+      background: transparent;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .stepper button.active {
+      color: var(--primary-dark);
+      background: #eaf2ee;
+    }
+
+    .stepper em {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 8px;
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .stepper small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .stepper span {
+      font-weight: 800;
+    }
+
+    .work-area {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stage {
+      display: none;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(31, 95, 84, 0.13);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stage.active {
+      display: block;
+    }
+
+    .stage-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #ffffff, #eef4ef);
+    }
+
+    .stage-body {
+      display: grid;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: 18px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    textarea,
+    select {
+      width: 100%;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid #cfd9d3;
+      border-radius: 12px;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(31, 95, 84, 0.14);
+    }
+
+    textarea {
+      min-height: 360px;
+      resize: vertical;
+      padding: 14px;
+      line-height: 1.72;
+    }
+
+    select {
+      min-height: 42px;
+      padding: 0 10px;
+    }
+
+    .textarea-shell {
+      display: grid;
+      gap: 10px;
+    }
+
+    .textarea-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sample-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .choice-section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .choice-section h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option-grid.compact {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .option-card {
+      min-height: 74px;
+      padding: 14px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    .option-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .option-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .option-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.12);
+    }
+
+    .option-card.active strong {
+      color: var(--primary-dark);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: 18px;
+    }
+
+    .field-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid #cfd9d3;
+      border-radius: 12px;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input {
+      min-height: 42px;
+      padding: 0 12px;
+    }
+
+    .upload-zone {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      background: var(--soft-blue);
+      border: 1px dashed rgba(53, 71, 255, 0.35);
+      border-radius: var(--radius);
+    }
+
+    .image-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .image-preview {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .image-preview img {
+      display: block;
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .image-preview span {
+      display: block;
+      padding: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .config-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .notice {
+      padding: 12px;
+      color: #6d4d15;
+      background: #fff6df;
+      border: 1px solid #edd8a5;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stage-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 6px;
+    }
+
+    .stage-actions .right-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .process-card {
+      position: relative;
+      min-height: 170px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .process-card::after {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 4px;
+      content: "";
+      background: #d9e4de;
+    }
+
+    .process-card.done::after {
+      background: var(--green);
+    }
+
+    .process-status {
+      display: inline-grid;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 12px;
+      place-items: center;
+      color: #fff;
+      background: #94a3b8;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .process-card.done .process-status {
+      background: var(--green);
+    }
+
+    .process-card.running .process-status {
+      background: var(--primary);
+      animation: breathe 0.8s infinite alternate;
+    }
+
+    @keyframes breathe {
+      from {
+        transform: scale(0.96);
+        opacity: 0.75;
+      }
+      to {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+    }
+
+    .process-card.running::after {
+      background: linear-gradient(90deg, var(--primary), var(--amber));
+      animation: pulseLine 1s infinite alternate;
+    }
+
+    @keyframes pulseLine {
+      from {
+        opacity: 0.45;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .process-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .process-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 18px;
+    }
+
+    .report-main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-side {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .card {
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .summary-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 18px;
+      align-items: stretch;
+      padding: 22px;
+      background: linear-gradient(135deg, #ffffff, #edf4ef);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .summary-band.featured {
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-title {
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.12;
+    }
+
+    .summary-sentence {
+      margin: 14px 0 0;
+      color: #334155;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .summary-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .metric-pill {
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .metric-pill span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .metric-pill strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+    }
+
+    .score-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .gauge {
+      --value: 0;
+      display: grid;
+      place-items: center;
+      min-height: 178px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .gauge-ring {
+      display: grid;
+      width: 118px;
+      height: 118px;
+      place-items: center;
+      background:
+        radial-gradient(circle closest-side, #fff 72%, transparent 73%),
+        conic-gradient(var(--gauge-color) calc(var(--value) * 1%), #e5ebe7 0);
+      border-radius: 999px;
+    }
+
+    .gauge-ring strong {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .gauge span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .meta {
+      padding: 12px;
+      background: #f5f8f5;
+      border: 1px solid #e1e8e3;
+      border-radius: 8px;
+    }
+
+    .meta span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .meta strong {
+      font-size: 14px;
+    }
+
+    .dimension-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dimension {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .dimension-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .bar-track {
+      height: 10px;
+      background: #e7eee9;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: var(--bar-color);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .trust-card-grid,
+    .top-risk-grid,
+    .rewrite-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .trust-card,
+    .top-risk-card {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+    }
+
+    .trust-score {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .trust-score strong {
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .status-label {
+      display: inline-flex;
+      width: fit-content;
+      min-height: 26px;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .status-label.good {
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-label.mid {
+      color: #92400e;
+      background: #fef3c7;
+    }
+
+    .status-label.bad {
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
+    .top-risk-card.high {
+      border-color: #fecaca;
+      border-left: 5px solid var(--red);
+    }
+
+    .top-risk-card.medium {
+      border-color: #fed7aa;
+      border-left: 5px solid var(--amber);
+    }
+
+    .top-risk-card.low {
+      border-color: #bfdbfe;
+      border-left: 5px solid var(--primary);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      color: var(--primary-dark);
+      background: #edf3ef;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag.danger {
+      color: #8f302b;
+      background: #f8e7e5;
+    }
+
+    .tag.warn {
+      color: #745018;
+      background: #fbefd5;
+    }
+
+    .risk-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .risk-item {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      background: #fbfcfa;
+      border: 1px solid #e4e9e5;
+      border-left: 4px solid var(--amber);
+      border-radius: 8px;
+    }
+
+    .risk-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
+    .risk-table th {
+      padding: 0 12px 6px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .risk-table td {
+      padding: 14px 12px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      line-height: 1.65;
+    }
+
+    .risk-table td:first-child {
+      border-left: 4px solid var(--primary);
+      border-radius: 12px 0 0 12px;
+    }
+
+    .risk-table td:last-child {
+      border-right: 1px solid var(--line);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .risk-table tr.high td:first-child {
+      border-left-color: var(--red);
+    }
+
+    .risk-table tr.medium td:first-child {
+      border-left-color: var(--amber);
+    }
+
+    .risk-table tr.low td:first-child {
+      border-left-color: var(--primary);
+    }
+
+    .risk-item.high {
+      border-left-color: var(--red);
+    }
+
+    .risk-item.low {
+      border-left-color: var(--blue);
+    }
+
+    .sentence {
+      margin: 0;
+      font-weight: 900;
+      line-height: 1.65;
+    }
+
+    .reason {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .rewrite-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .rewrite-compare-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .rewrite-card {
+      display: grid;
+      gap: 12px;
+      min-height: 260px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .rewrite-card.original {
+      background: #f8fafc;
+    }
+
+    .rewrite-text,
+    .markdown-box {
+      padding: 13px;
+      color: #26352f;
+      background: #f1f6f2;
+      border: 1px solid #deebe2;
+      border-radius: 6px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .export-bar {
+      position: sticky;
+      bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .chat-panel {
+      display: grid;
+      gap: 14px;
+    }
+
+    .quick-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chat-log {
+      display: grid;
+      gap: 10px;
+      max-height: 360px;
+      overflow: auto;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .chat-message {
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      line-height: 1.7;
+    }
+
+    .chat-message.user {
+      background: var(--soft-blue);
+    }
+
+    .chat-message.assistant {
+      background: var(--soft-cyan);
+    }
+
+    .presentation-mode .topbar,
+    .presentation-mode .stepper,
+    .presentation-mode #stage-input,
+    .presentation-mode #stage-config,
+    .presentation-mode #stage-process,
+    .presentation-mode #stage-rewrite,
+    .presentation-mode #home,
+    .presentation-mode #examples,
+    .presentation-mode #about {
+      display: none !important;
+    }
+
+    .presentation-mode .page {
+      display: none;
+      max-width: 1500px;
+      padding: 18px;
+    }
+
+    .presentation-mode #workspace {
+      display: block !important;
+    }
+
+    .presentation-mode .step-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .presentation-mode #stage-report {
+      display: block !important;
+    }
+
+    .presentation-mode .stage {
+      box-shadow: none;
+      border: 0;
+    }
+
+    .presentation-exit {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      z-index: 80;
+      display: none;
+    }
+
+    .presentation-mode .presentation-exit {
+      display: inline-flex;
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      background: #f7f9f6;
+      border: 1px solid #e4e9e5;
+      border-radius: 8px;
+      line-height: 1.55;
+    }
+
+    .status-dot {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .status-dot.pass {
+      background: var(--green);
+    }
+
+    .status-dot.fail {
+      background: var(--red);
+    }
+
+    .empty {
+      display: grid;
+      min-height: 460px;
+      place-items: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .seal {
+      display: grid;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 20px;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(145deg, var(--primary-dark), var(--primary));
+      border: 8px double rgba(255, 255, 255, 0.65);
+      border-radius: 999px;
+      font-size: 34px;
+      font-weight: 900;
+      box-shadow: 0 18px 36px rgba(23, 63, 57, 0.2);
+    }
+
+    .example-grid,
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .example-card,
+    .about-card {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    blockquote {
+      margin: 0;
+      padding: 12px;
+      color: #293832;
+      background: #f4f7f4;
+      border-left: 4px solid var(--primary);
+      border-radius: 4px;
+      line-height: 1.72;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      transform: translateY(20px);
+      padding: 12px 14px;
+      color: #fff;
+      background: var(--primary-dark);
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+      box-shadow: 0 14px 30px rgba(23, 63, 57, 0.24);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .is-busy {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .is-busy::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      animation: sweep 1.1s infinite;
+    }
+
+    @keyframes sweep {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    @media (max-width: 1160px) {
+      .hero,
+      .step-shell,
+      .form-grid,
+      .report-grid,
+      .summary-band {
+        grid-template-columns: 1fr;
+      }
+
+      .stepper {
+        position: static;
+      }
+
+      .process-grid,
+      .rewrite-grid,
+      .example-grid,
+      .about-grid,
+      .value-grid,
+      .option-grid,
+      .option-grid.compact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .page {
+        padding: 12px;
+      }
+
+      .process-grid,
+      .rewrite-grid,
+      .example-grid,
+      .about-grid,
+      .value-grid,
+      .option-grid,
+      .option-grid.compact,
+      .meta-grid,
+      .score-pair,
+      .compare,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .stage-head {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div>
+          <span class="brand-title">AdTrust AI</span>
+          <span class="brand-subtitle">消费者信任与广告转化优化官</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="主导航">
+        <button class="active" data-page="home">首页</button>
+        <button data-page="workspace">优化流程</button>
+        <button data-page="examples">优秀案例</button>
+        <button data-page="about">项目说明</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page active" id="home">
+        <div class="hero">
+          <div class="hero-main">
+            <span class="section-label">信任转化优化</span>
+            <h1>让广告更可信，也更能打动消费者</h1>
+            <h2>AdTrust AI 消费者信任与广告转化优化官</h2>
+            <p class="subcopy">输入广告文案、商品信息或广告图片，系统将结合消费者画像、圈层偏好、优秀案例和合规底线，判断内容是否可信、是否吸引目标消费者、是否具备销售转化潜力，并生成更有营销张力的改写方案。</p>
+            <div class="hero-actions">
+              <button class="primary-btn" data-page="workspace">开始优化广告</button>
+              <button class="secondary-btn" data-page="examples">查看优秀案例</button>
+            </div>
+            <div class="value-grid">
+              <article class="value-card">
+                <div class="value-icon">像</div>
+                <h3>消费者画像识别</h3>
+                <p class="subcopy">根据产品品类、价格、卖点和文案语气，推断目标消费者画像、消费动机和圈层偏好。</p>
+              </article>
+              <article class="value-card">
+                <div class="value-icon">信</div>
+                <h3>信任与转化评估</h3>
+                <p class="subcopy">从真实感、卖点清晰度、情绪共鸣、行动召唤、合规安全等维度评估广告是否能打动消费者。</p>
+              </article>
+              <article class="value-card">
+                <div class="value-icon">写</div>
+                <h3>多风格广告改写</h3>
+                <p class="subcopy">输出高信任版、高转化版、种草真实版、温和紧迫版和平台适配版。</p>
+              </article>
+              <article class="value-card">
+                <div class="value-icon">图</div>
+                <h3>图片广告识别</h3>
+                <p class="subcopy">支持上传海报、详情页截图、种草图，对图片中的文字和视觉结构进行分析。</p>
+              </article>
+            </div>
+            <div class="home-disclaimer">免责声明：本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。</div>
+          </div>
+          <aside class="hero-side">
+            <div class="flow-card">
+              <h2>产品流程</h2>
+              <ol class="flow-list">
+                <li><span class="flow-index">1</span><div><strong>首页</strong><span>理解产品边界和适用场景</span></div></li>
+                <li><span class="flow-index">2</span><div><strong>产品与素材输入</strong><span>填写产品、卖点、证明材料、文案和图片素材</span></div></li>
+                <li><span class="flow-index">3</span><div><strong>信任转化诊断</strong><span>评估信任度、吸引力、圈层匹配和合规底线</span></div></li>
+                <li><span class="flow-index">4</span><div><strong>多风格改写</strong><span>生成不同平台和人群可用的广告文案</span></div></li>
+                <li><span class="flow-index">5</span><div><strong>对话追问与导出</strong><span>保留优化结论，导出课程展示材料</span></div></li>
+              </ol>
+            </div>
+            <div class="flow-card">
+              <h2>工具边界</h2>
+              <p class="subcopy">本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。</p>
+            </div>
+            <div class="flow-card">
+              <h2>最近优化记录</h2>
+              <div class="history-list" id="homeHistoryList"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="page" id="workspace">
+        <div class="step-shell">
+          <aside class="stepper" aria-label="优化步骤">
+            <button class="active" data-stage="input"><em>1</em><span>产品与素材输入<small>产品、卖点、文案、图片</small></span></button>
+            <button data-stage="config"><em>2</em><span>消费者与平台配置<small>平台、人群、风格、强度</small></span></button>
+            <button data-stage="process"><em>3</em><span>信任转化诊断<small>计算五项核心指标</small></span></button>
+            <button data-stage="report"><em>4</em><span>营销诊断报告<small>画像、摩擦点、转化建议</small></span></button>
+            <button data-stage="rewrite"><em>5</em><span>改写工作室<small>多风格改写与导出</small></span></button>
+          </aside>
+
+          <div class="work-area">
+            <section class="stage active" id="stage-input">
+              <div class="stage-head">
+                <div>
+                  <span class="section-label">第一步</span>
+                  <h1>产品与素材输入</h1>
+                  <p class="subcopy">请填写产品信息、核心卖点、证明材料、广告文案或图片素材。系统将用于判断消费者信任、转化吸引力和圈层匹配度。</p>
+                </div>
+              </div>
+              <div class="stage-body">
+                <div class="input-grid">
+                  <div class="field-stack">
+                    <label>产品名称<input id="productName" placeholder="例如：轻透修护精华" /></label>
+                    <label>产品品类<select id="productCategory">
+                      <option value="beauty">美妆护肤</option>
+                      <option value="food">食品饮料</option>
+                      <option value="education">教育培训</option>
+                      <option value="fashion">服饰穿搭</option>
+                      <option value="digital">数码家电</option>
+                      <option value="pet">宠物用品</option>
+                      <option value="local_life">本地生活</option>
+                      <option value="ai_tool">AI工具</option>
+                      <option value="other">其他</option>
+                    </select></label>
+                    <label>产品价格区间<input id="priceRange" placeholder="例如：99-199元 / 体验课29元" /></label>
+                    <label>核心卖点<textarea id="sellingPoints" maxlength="1200" placeholder="每行一个卖点，例如：肤感清爽、适合通勤、活动期赠送体验装"></textarea></label>
+                    <label>证明材料，可选<textarea id="proofMaterials" maxlength="1200" placeholder="例如：检测报告、用户评价、销量数据、成分说明、活动规则"></textarea></label>
+                  </div>
+                  <div class="field-stack">
+                    <label>广告文案<textarea id="adText" maxlength="5000" placeholder="请粘贴广告文案、种草笔记、短视频脚本或直播话术"></textarea></label>
+                    <div class="textarea-meta"><span>请勿输入身份证号、手机号、客户名单、合同、未公开商业机密等敏感信息。</span><strong id="charCount">0 / 5000</strong></div>
+                    <label>广告目标<select id="adGoal">
+                      <option value="seeding">种草</option>
+                      <option value="promotion">促销转化</option>
+                      <option value="live">直播带货</option>
+                      <option value="launch">新品上市</option>
+                      <option value="trust_repair">品牌信任修复</option>
+                      <option value="private_conversion">私域社群转化</option>
+                    </select></label>
+                    <div class="upload-zone">
+                      <label>图片类型<select id="imageType">
+                        <option value="poster">广告海报</option>
+                        <option value="detail">商品详情页截图</option>
+                        <option value="xiaohongshu">小红书图文</option>
+                        <option value="live">直播间截图</option>
+                        <option value="other">其他</option>
+                      </select></label>
+                      <label>图片上传<input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp" multiple /></label>
+                      <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                      <label>图片文字提取结果<textarea id="imageText" placeholder="第二批接入图片识别后自动生成；当前可手动输入图片中的文字作为临时替代。"></textarea></label>
+                    </div>
+                    <div class="sample-row">
+                      <button class="secondary-btn" type="button" data-load-sample="0">填入美妆示例</button>
+                      <button class="secondary-btn" type="button" data-load-sample="1">填入教育示例</button>
+                      <button class="secondary-btn" type="button" data-load-sample="2">填入食品示例</button>
+                      <button class="icon-btn" id="clearBtn" type="button" title="清空">×</button>
+                    </div>
+                  </div>
+                  <div class="notice">隐私提示：请勿输入个人隐私、客户资料、合同内容或未公开商业信息。图片当前只做前端预览与文本临时输入，不上传云端。</div>
+                  <div class="stage-actions">
+                    <div></div>
+                    <div class="right-actions">
+                      <button class="primary-btn" type="button" id="nextConfigBtn">下一步：配置消费者与平台</button>
+                    </div>
+                  </div>
+                  <section class="card">
+                    <h2>最近优化记录</h2>
+                    <div class="history-list" id="workspaceHistoryList"></div>
+                  </section>
+                </div>
+              </div>
+            </section>
+
+            <section class="stage" id="stage-config">
+              <div class="stage-head">
+                <div>
+                  <span class="section-label">第二步</span>
+                  <h1>目标消费者与平台配置</h1>
+                  <p class="subcopy">请选择目标平台、消费者圈层、期望营销风格和合规强度。若不确定，可保持“自动推断”或“通用”。</p>
+                </div>
+              </div>
+              <div class="stage-body">
+                <form id="auditForm" class="config-grid">
+                  <input id="targetPlatform" type="hidden" value="general" />
+                  <input id="targetAudience" type="hidden" value="auto" />
+                  <input id="marketingStyle" type="hidden" value="trustworthy" />
+                  <input id="complianceStrength" type="hidden" value="balanced" />
+                  <input id="contentType" type="hidden" value="auto" />
+                  <input id="industry" type="hidden" value="auto" />
+                  <input id="mode" type="hidden" value="deep" />
+                  <input id="tone" type="hidden" value="balanced" />
+
+                  <section class="choice-section">
+                    <h2>目标平台</h2>
+                    <div class="option-grid" data-choice-group="targetPlatform">
+                      <button class="option-card" type="button" data-value="xiaohongshu"><strong>小红书</strong><span>真实体验、口语化、轻种草</span></button>
+                      <button class="option-card" type="button" data-value="douyin"><strong>抖音</strong><span>强开头、节奏快、利益点突出</span></button>
+                      <button class="option-card" type="button" data-value="shipinhao"><strong>视频号</strong><span>信任关系、稳健表达</span></button>
+                      <button class="option-card" type="button" data-value="tmall"><strong>淘宝/天猫</strong><span>卖点分层、参数清晰</span></button>
+                      <button class="option-card" type="button" data-value="jd"><strong>京东</strong><span>品质、效率、服务保障</span></button>
+                      <button class="option-card" type="button" data-value="wechat"><strong>微信私域</strong><span>熟人推荐、行动明确</span></button>
+                      <button class="option-card" type="button" data-value="offline"><strong>线下海报</strong><span>快速理解、利益聚焦</span></button>
+                      <button class="option-card active" type="button" data-value="general"><strong>通用</strong><span>适配多渠道投放</span></button>
+                    </div>
+                  </section>
+
+                  <section class="choice-section">
+                    <h2>目标消费者</h2>
+                    <div class="option-grid" data-choice-group="targetAudience">
+                      <button class="option-card active" type="button" data-value="auto"><strong>自动推断</strong><span>根据产品和文案推断人群</span></button>
+                      <button class="option-card" type="button" data-value="student"><strong>学生党</strong><span>预算敏感、口碑驱动</span></button>
+                      <button class="option-card" type="button" data-value="white_collar"><strong>精致白领</strong><span>效率、质感、稳定体验</span></button>
+                      <button class="option-card" type="button" data-value="ingredient"><strong>成分党</strong><span>关注依据、成分、参数</span></button>
+                      <button class="option-card" type="button" data-value="price_sensitive"><strong>价格敏感型</strong><span>权益、优惠、性价比</span></button>
+                      <button class="option-card" type="button" data-value="result_oriented"><strong>功效导向型</strong><span>关注结果和适用条件</span></button>
+                      <button class="option-card" type="button" data-value="beginner"><strong>新手小白</strong><span>需要低门槛解释</span></button>
+                      <button class="option-card" type="button" data-value="expert"><strong>专业达人</strong><span>关注细节和证据</span></button>
+                      <button class="option-card" type="button" data-value="mom"><strong>宝妈人群</strong><span>安全、口碑、家庭场景</span></button>
+                      <button class="option-card" type="button" data-value="senior"><strong>银发人群</strong><span>易懂、可信、服务保障</span></button>
+                      <button class="option-card" type="button" data-value="other"><strong>其他</strong><span>自定义消费圈层</span></button>
+                    </div>
+                  </section>
+
+                  <section class="choice-section">
+                    <h2>期望营销风格</h2>
+                    <div class="option-grid" data-choice-group="marketingStyle">
+                      <button class="option-card" type="button" data-value="seeding"><strong>真实种草</strong><span>体验感、自然推荐</span></button>
+                      <button class="option-card active" type="button" data-value="trustworthy"><strong>专业可信</strong><span>证据感、结构清晰</span></button>
+                      <button class="option-card" type="button" data-value="conversion"><strong>高转化促销</strong><span>利益点、行动召唤</span></button>
+                      <button class="option-card" type="button" data-value="gentle_urgency"><strong>温和紧迫</strong><span>具体活动、可解释限时</span></button>
+                      <button class="option-card" type="button" data-value="emotional"><strong>情绪共鸣</strong><span>场景痛点、心理认同</span></button>
+                      <button class="option-card" type="button" data-value="premium"><strong>高级品牌感</strong><span>克制、质感、长期价值</span></button>
+                      <button class="option-card" type="button" data-value="young"><strong>年轻化口语</strong><span>轻松、直接、有网感</span></button>
+                      <button class="option-card" type="button" data-value="live_interactive"><strong>直播间强互动</strong><span>节奏快、回应明确</span></button>
+                    </div>
+                  </section>
+
+                  <section class="choice-section">
+                    <h2>合规强度</h2>
+                    <div class="option-grid compact" data-choice-group="complianceStrength">
+                      <button class="option-card" type="button" data-value="loose"><strong>宽松</strong><span>保留更多营销张力</span></button>
+                      <button class="option-card active" type="button" data-value="balanced"><strong>平衡</strong><span>兼顾转化和可信</span></button>
+                      <button class="option-card" type="button" data-value="strict"><strong>严格</strong><span>适合高风险行业</span></button>
+                    </div>
+                  </section>
+
+                  <div class="stage-actions">
+                    <button class="secondary-btn" type="button" data-stage="input">返回上一步</button>
+                    <div class="right-actions">
+                      <button class="primary-btn" id="submitBtn" type="submit">开始诊断</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <section class="stage" id="stage-process">
+              <div class="stage-head">
+                <div>
+                  <span class="section-label">第三步</span>
+                  <h1>信任转化诊断中</h1>
+                  <p class="subcopy">系统正在进行消费者画像识别、信任转化评估、圈层匹配分析和改写生成，请稍候。</p>
+                </div>
+                <button class="secondary-btn" data-stage="config">返回上一步</button>
+              </div>
+              <div class="stage-body">
+                <div class="process-grid" id="processGrid"></div>
+              </div>
+            </section>
+
+            <section class="stage" id="stage-report">
+              <div class="stage-head">
+                <div>
+                  <span class="section-label">第四步</span>
+                  <h1>查看营销诊断报告</h1>
+                  <p class="subcopy">以下结果用于广告信任与转化优化，不构成法律意见。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。</p>
+                </div>
+                <button class="secondary-btn" data-stage="rewrite">查看改写导出</button>
+              </div>
+              <div class="stage-body" id="reportBody">
+                <div class="empty">
+                  <div>
+                    <div class="seal">审</div>
+                    <h2>暂无诊断结果</h2>
+                    <p class="subcopy">请先提交产品信息和广告素材。</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="stage" id="stage-rewrite">
+              <div class="stage-head">
+                <div>
+                  <span class="section-label">第五步</span>
+                  <h1>多风格改写工作室</h1>
+                  <p class="subcopy">对比原文与优化文本，复制结果或下载课程展示报告。</p>
+                </div>
+                <button class="secondary-btn" data-stage="report">返回报告</button>
+              </div>
+              <div class="stage-body" id="rewriteBody">
+                <div class="empty">
+                  <div>
+                    <div class="seal">写</div>
+                    <h2>暂无改写结果</h2>
+                    <p class="subcopy">请先完成一次信任转化诊断。</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="examples">
+        <div class="stage active">
+          <div class="stage-head">
+            <div>
+              <span class="section-label">优秀案例</span>
+              <h1>三组课堂展示案例</h1>
+              <p class="subcopy">覆盖美妆、教育、食品三个高频营销场景，展示信任与转化优化前后的差异。</p>
+            </div>
+          </div>
+          <div class="stage-body">
+            <div class="example-grid" id="exampleGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="about">
+        <div class="stage active">
+          <div class="stage-head">
+            <div>
+              <span class="section-label">项目说明</span>
+              <h1>面向数字营销课程的产品化工具</h1>
+              <p class="subcopy">差异化方向是消费者信任诊断与广告转化优化，而不是简单生成广告文案。</p>
+            </div>
+          </div>
+          <div class="stage-body">
+            <div class="about-grid">
+              <article class="about-card">
+                <h2>项目背景</h2>
+                <p class="subcopy">AI生成营销内容的速度明显提升，但很多文案只追求吸引眼球，缺少消费者画像、信任依据和转化路径设计。</p>
+              </article>
+              <article class="about-card">
+                <h2>目标用户</h2>
+                <p class="subcopy">品牌营销人员、中小商家、内容创作者、校园创业者和数字营销课程学生。</p>
+              </article>
+              <article class="about-card">
+                <h2>产品边界</h2>
+                <p class="subcopy">本工具提供消费者信任分析、转化优化建议和合规底线提醒，不提供法律结论，不替代律师、平台审核员或企业法务。</p>
+              </article>
+              <article class="about-card">
+                <h2>五项核心指标</h2>
+                <p class="subcopy">从消费者信任度、转化吸引力、圈层匹配度、卖点清晰度和合规安全度评估广告质量。</p>
+              </article>
+              <article class="about-card">
+                <h2>信任转化模型</h2>
+                <p class="subcopy">先判断目标消费者是否相信，再判断是否愿意行动，最后保留必要的合规底线。</p>
+              </article>
+              <article class="about-card">
+                <h2>有效性测试方案</h2>
+                <p class="subcopy">准备美妆、食品、教育等30条样本，对比原文与优化文案在可信度、吸引力、圈层匹配和行动意愿上的变化。</p>
+              </article>
+              <article class="about-card">
+                <h2>推广管理策略</h2>
+                <p class="subcopy">先面向课程学生和校园创业者，再扩展到创作者、本地商家、MCN机构和品牌营销团队。</p>
+              </article>
+              <article class="about-card">
+                <h2>免责声明</h2>
+                <p class="subcopy">本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <button class="secondary-btn presentation-exit" type="button" id="presentationExitBtn">退出展示模式</button>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const FieldLabels = {
+      contentType: {
+        auto: "自动识别",
+        xiaohongshu_note: "小红书种草笔记",
+        short_video_script: "短视频脚本",
+        live_script: "直播话术",
+        product_detail: "商品详情页",
+        promo_poster: "促销海报",
+        private_community: "私域社群文案"
+      },
+      industry: {
+        auto: "自动识别",
+        beauty: "美妆护肤",
+        food: "食品饮料",
+        education: "教育培训",
+        fashion: "服饰穿搭",
+        pet: "宠物用品",
+        digital: "数码家电",
+        local_life: "本地生活",
+        ai_tool: "AI工具",
+        other: "其他"
+      },
+      mode: {
+        quick: "快速审查",
+        deep: "深度审查"
+      },
+      tone: {
+        safe: "保守稳妥",
+        balanced: "平衡营销效果与风险",
+        original: "尽量保留原文风格"
+      }
+    };
+
+    const SampleRepository = {
+      items: [
+        {
+          title: "美妆种草笔记",
+          industry: "beauty",
+          contentType: "xiaohongshu_note",
+          text: "姐妹们闭眼入！这款精华真的太神了，3天就能白一个度，全网第一美白神器，敏感肌也100%能用。我已经推荐给所有朋友了，再不买就亏大了！"
+        },
+        {
+          title: "教育培训广告",
+          industry: "education",
+          contentType: "promo_poster",
+          text: "报名我们的课程，30天英语成绩必定提高，名师一对一辅导，历年学员通过率全行业第一，最后3个名额，今天不报就没机会了。"
+        },
+        {
+          title: "食品饮料促销",
+          industry: "food",
+          contentType: "short_video_script",
+          text: "这款代餐奶昔喝了就能瘦，0负担0风险，明星同款，全网最低价，只要坚持一周就能看到明显变化。"
+        }
+      ]
+    };
+
+    const RiskDimensionMeta = {
+      complianceExpression: { label: "合规表达风险", weight: 30 },
+      factualEvidence: { label: "事实证据风险", weight: 20 },
+      consumerMisleading: { label: "消费者误导风险", weight: 20 },
+      brandTrustRisk: { label: "品牌信任风险", weight: 20 },
+      platformRisk: { label: "平台发布风险", weight: 10 }
+    };
+
+    const TrustDimensionMeta = {
+      authenticity: { label: "真实性", weight: 25 },
+      evidence: { label: "证据性", weight: 25 },
+      transparency: { label: "透明性", weight: 20 },
+      restraint: { label: "克制性", weight: 15 },
+      brandConsistency: { label: "品牌一致性", weight: 15 }
+    };
+
+    const RiskRuleRepository = {
+      rules: [
+        {
+          type: "绝对化表达",
+          level: "高",
+          dimensions: ["complianceExpression", "consumerMisleading"],
+          impact: 82,
+          keywords: ["全网第一", "全行业第一", "第一", "最好", "最佳", "顶级", "永久有效", "史上最强", "全网最低", "绝对有效", "100%"],
+          reason: "使用绝对化或排他性表达，容易形成无法证明的确定性判断。",
+          evidenceNeeded: "排名依据、统计口径或第三方证明材料",
+          guidance: "弱化排名和绝对承诺，改为可验证、可解释的相对表达。"
+        },
+        {
+          type: "夸大效果",
+          level: "高",
+          dimensions: ["consumerMisleading", "brandTrustRisk"],
+          impact: 78,
+          keywords: ["3天", "三天", "一次解决", "立刻", "马上见效", "白一个度", "明显变化", "效果惊人", "30天"],
+          reason: "对效果达成时间或强度作出过度承诺，缺少可验证依据。",
+          evidenceNeeded: "实验条件、样本说明、效果评估周期或用户反馈来源",
+          guidance: "改为“有助于”“部分用户反馈”“持续使用后可能感受到变化”。"
+        },
+        {
+          type: "功效承诺",
+          level: "高",
+          dimensions: ["complianceExpression", "consumerMisleading", "brandTrustRisk"],
+          impact: 92,
+          keywords: ["治愈", "根治", "包瘦", "喝了就能瘦", "祛斑必成", "保证成绩", "必定提高", "0风险"],
+          reason: "存在确定性功效、健康效果或学习结果承诺，风险较高。",
+          evidenceNeeded: "产品检测依据、适用条件、效果差异说明或服务结果边界",
+          guidance: "删除确定性功效承诺，补充适用条件和效果差异说明。"
+        },
+        {
+          type: "证据不足",
+          level: "中",
+          dimensions: ["factualEvidence", "brandTrustRisk"],
+          impact: 72,
+          keywords: ["权威认证", "专家推荐", "名师", "明星同款", "销量第一", "通过率", "99%用户", "检测报告"],
+          reason: "涉及权威背书、数据排名或第三方推荐，但文本未说明来源、口径或证明材料。",
+          evidenceNeeded: "检测报告来源、专家身份说明、排名统计口径或背书授权证明",
+          guidance: "补充来源、统计口径、专家身份、检测条件，或删除无法验证的背书。"
+        },
+        {
+          type: "价格误导",
+          level: "中",
+          dimensions: ["platformRisk", "consumerMisleading"],
+          impact: 68,
+          keywords: ["最后一天", "最后3个", "今天不报", "错过再等一年", "历史最低", "全网最低价", "原价"],
+          reason: "稀缺性、限时性或价格对比依据不清，可能造成压力销售或价格误导。",
+          evidenceNeeded: "价格活动规则、库存依据、活动起止时间或价格对比口径",
+          guidance: "明确活动时间、数量依据、价格口径，避免制造虚假稀缺感。"
+        },
+        {
+          type: "广告属性不透明",
+          level: "中",
+          dimensions: ["brandTrustRisk", "platformRisk"],
+          impact: 64,
+          keywords: ["购买链接", "下单", "领取优惠", "种草", "带货", "同款链接"],
+          reason: "内容带有明显导购意图时，需要更清楚说明推广、合作或购买引导关系。",
+          evidenceNeeded: "推广关系、合作说明、试用来源或购买引导说明",
+          guidance: "增加推广、合作、试用、赞助或购买引导说明。"
+        },
+        {
+          type: "用户评价滥用",
+          level: "中",
+          dimensions: ["brandTrustRisk", "factualEvidence"],
+          impact: 62,
+          keywords: ["所有朋友", "大家都说", "用了都说好", "真实反馈", "人人都适合"],
+          reason: "用个别或泛化评价代表普遍结果，容易让消费者形成过高预期。",
+          evidenceNeeded: "用户反馈样本范围、评价来源或适用人群说明",
+          guidance: "改为“部分用户反馈”，并避免扩大样本代表性。"
+        },
+        {
+          type: "内容真实性风险",
+          level: "中",
+          dimensions: ["brandTrustRisk", "factualEvidence"],
+          impact: 70,
+          keywords: ["虚构", "模拟用户", "生成评价", "假设专家", "前后对比图"],
+          reason: "涉及可能无法验证的用户、专家、测评或图像描述，需要避免虚构事实。",
+          evidenceNeeded: "真实用户授权、测评过程记录、专家身份或素材来源说明",
+          guidance: "仅保留真实可验证信息，或明确说明为模拟示例。"
+        },
+        {
+          type: "焦虑营销",
+          level: "中",
+          dimensions: ["consumerMisleading", "brandTrustRisk"],
+          impact: 58,
+          keywords: ["再不买", "亏大了", "不买就落后", "没机会", "闭眼入"],
+          reason: "通过焦虑或强推销话术促使用户立即行动，可能削弱品牌可信度。",
+          evidenceNeeded: "活动规则、适用场景或用户选择依据",
+          guidance: "改为理性推荐，强调适用场景和选择理由。"
+        }
+      ]
+    };
+
+    const PromptTemplateModule = {
+      systemPrompt: `你是 AdTrust AI 消费者信任与广告转化优化官。你的任务是帮助品牌营销人员、中小商家和内容创作者在发布前判断广告是否可信、是否吸引目标消费者、是否具备销售转化潜力，并提出更有营销张力且保留合规底线的改写建议。你不是律师，不提供法律结论，不判断违法或不违法。禁止编造法规、检测报告、专家身份、用户反馈或数据来源。输出必须结构化。改写必须降低信任阻碍，不能直接复制原文。`,
+      buildUserPrompt(request) {
+        return `请优化以下广告内容。\n\n广告文本：${request.text}\n产品名称：${request.productName || "未填写"}\n产品品类：${FieldLabels.industry[request.productCategory] || "其他"}\n目标平台：${MarketingOptimizer.platformLabels[request.targetPlatform] || "通用"}\n目标消费者：${MarketingOptimizer.audienceLabels[request.targetAudience] || "自动推断"}\n营销风格：${request.marketingStyle || "专业可信"}\n合规强度：${request.complianceStrength || "平衡"}\n\n要求：不提供法律结论；不编造证据；不虚构法规、专家或用户反馈；输出必须结构化；改写必须降低信任阻碍并提升转化吸引力，不能直接复制原文。请输出消费者画像、五项核心指标、圈层偏好分析、信任阻碍点、转化损耗点、合规底线提醒、五版改写和报告。`;
+      }
+    };
+
+    const TextToolkit = {
+      splitSentences(text) {
+        return text
+          .replace(/\s+/g, " ")
+          .split(/(?<=[。！？!?；;])|\n+/)
+          .map(item => item.trim())
+          .filter(Boolean);
+      },
+      escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+    };
+
+    const ContentClassifier = {
+      inferContentType(text, selected) {
+        if (selected !== "auto") return FieldLabels.contentType[selected];
+        if (/直播|上链接|拍一号|库存|主播/.test(text)) return "直播话术";
+        if (/详情|参数|规格|保障|卖点|原价/.test(text)) return "商品详情页";
+        if (/姐妹|种草|笔记|闭眼入|同款链接/.test(text)) return "小红书种草笔记";
+        if (/口播|镜头|开场|结尾|短视频/.test(text)) return "短视频脚本";
+        if (/最后|限时|促销|海报|全网最低/.test(text)) return "促销海报";
+        if (/群里|私聊|社群|领取/.test(text)) return "私域社群文案";
+        return "广告文案";
+      },
+      inferIndustry(text, selected) {
+        if (selected !== "auto") return FieldLabels.industry[selected];
+        if (/精华|美白|护肤|敏感肌|肤色|暗沉/.test(text)) return "美妆护肤";
+        if (/代餐|奶昔|食品|饮料|喝/.test(text)) return "食品饮料";
+        if (/课程|成绩|英语|辅导|学员/.test(text)) return "教育培训";
+        if (/穿搭|衣服|面料|显瘦/.test(text)) return "服饰穿搭";
+        if (/宠物|猫|狗|粮/.test(text)) return "宠物用品";
+        if (/手机|数码|家电|参数/.test(text)) return "数码家电";
+        if (/门店|到店|本地/.test(text)) return "本地生活";
+        if (/AI|智能|模型|自动生成/.test(text)) return "AI工具";
+        return "其他";
+      },
+      inferIntent(text) {
+        if (/下单|购买|报名|优惠|领取|促销|带货|名额/.test(text)) return "转化促销";
+        if (/种草|分享|体验|推荐/.test(text)) return "种草推荐";
+        return "品牌传播";
+      },
+      inferAudience(text) {
+        if (/姐妹|美白|护肤|敏感肌/.test(text)) return "关注护肤效果的年轻消费者";
+        if (/课程|英语|成绩|辅导/.test(text)) return "有学习提升需求的学生或家长";
+        if (/代餐|瘦|奶昔/.test(text)) return "关注体重管理和轻食消费的人群";
+        if (/直播|下单|优惠/.test(text)) return "直播间或社群中的潜在购买用户";
+        return "对产品或服务有兴趣的潜在消费者";
+      },
+      analyze(request) {
+        return {
+          contentType: this.inferContentType(request.text, request.contentType),
+          industry: this.inferIndustry(request.text, request.industry),
+          intent: this.inferIntent(request.text),
+          targetAudienceGuess: this.inferAudience(request.text),
+          mode: FieldLabels.mode[request.mode],
+          confidence: request.text.length > 20 ? 0.86 : 0.66
+        };
+      }
+    };
+
+    const LocalRuleEngine = {
+      detect(text) {
+        const sentences = TextToolkit.splitSentences(text);
+        return sentences.map((sentence, index) => {
+          const matchedRules = RiskRuleRepository.rules.filter(rule => rule.keywords.some(keyword => sentence.includes(keyword)));
+          if (!matchedRules.length) return null;
+          const level = matchedRules.some(rule => rule.level === "高") ? "高" : "中";
+          const affectedDimensions = Array.from(new Set(matchedRules.flatMap(rule => rule.dimensions)));
+          return {
+            id: `risk-${index + 1}`,
+            sentence,
+            riskTypes: matchedRules.map(rule => rule.type),
+            riskLevel: level,
+            affectedDimensions,
+            affectedDimensionLabels: affectedDimensions.map(key => RiskDimensionMeta[key].label),
+            reason: matchedRules.map(rule => rule.reason).join(" "),
+            evidenceNeeded: Array.from(new Set(matchedRules.map(rule => rule.evidenceNeeded))).join("；"),
+            guidance: matchedRules.map(rule => rule.guidance).join(" "),
+            rewrite: "",
+            impact: Math.max(...matchedRules.map(rule => rule.impact))
+          };
+        }).filter(Boolean);
+      }
+    };
+
+    const ScoringModel = {
+      scoreRisk(items) {
+        const riskDimensions = {};
+        Object.keys(RiskDimensionMeta).forEach(key => {
+          const related = items.filter(item => item.affectedDimensions.includes(key));
+          const averageImpact = related.length
+            ? Math.round(related.reduce((sum, item) => sum + item.impact, 0) / related.length)
+            : 0;
+          const frequencyBoost = Math.min(18, Math.max(0, related.length - 1) * 6);
+          riskDimensions[key] = Math.min(100, averageImpact + frequencyBoost);
+        });
+        const total = Math.round(Object.entries(riskDimensions).reduce((sum, [key, value]) => {
+          return sum + value * RiskDimensionMeta[key].weight / 100;
+        }, 0));
+        return {
+          score: total,
+          level: total <= 20 ? "低风险" : total <= 50 ? "中风险" : total <= 75 ? "高风险" : "极高风险",
+          dimensions: riskDimensions
+        };
+      },
+      scoreTrust(riskScore, items) {
+        const types = new Set(items.flatMap(item => item.riskTypes));
+        const trustDimensions = {
+          authenticity: 88,
+          evidence: 86,
+          transparency: 88,
+          restraint: 90,
+          brandConsistency: riskScore > 50 ? 70 : 84
+        };
+        if (types.has("内容真实性风险") || types.has("用户评价滥用")) trustDimensions.authenticity -= 32;
+        if (types.has("证据不足") || types.has("用户评价滥用")) trustDimensions.evidence -= 38;
+        if (types.has("广告属性不透明")) trustDimensions.transparency -= 36;
+        if (types.has("绝对化表达") || types.has("夸大效果") || types.has("焦虑营销") || types.has("功效承诺")) trustDimensions.restraint -= 42;
+        if (riskScore > 75) trustDimensions.brandConsistency -= 18;
+        Object.keys(trustDimensions).forEach(key => {
+          trustDimensions[key] = Math.max(15, Math.min(100, trustDimensions[key]));
+        });
+        const total = Math.round(Object.entries(trustDimensions).reduce((sum, [key, value]) => {
+          return sum + value * TrustDimensionMeta[key].weight / 100;
+        }, 0));
+        return {
+          score: total,
+          level: total >= 80 ? "高" : total >= 65 ? "中等偏高" : total >= 50 ? "中等" : total >= 35 ? "中等偏低" : "低",
+          dimensions: trustDimensions
+        };
+      }
+    };
+
+    const RewriteEngine = {
+      replacements: [
+        [/姐妹们闭眼入/g, "如果你正在关注这类需求，可以先了解这款产品"],
+        [/闭眼入/g, "可以结合自身需求了解"],
+        [/真的太神了/g, "使用体验比较有特点"],
+        [/3天就能白一个度|三天就能白一个度/g, "部分用户反馈持续使用后肤感更清爽"],
+        [/30天英语成绩必定提高/g, "适合希望系统提升英语学习效率的用户参考"],
+        [/全网第一|全行业第一/g, "较受关注"],
+        [/美白神器/g, "提亮护理产品"],
+        [/敏感肌也100%能用/g, "敏感肌用户建议先进行局部测试"],
+        [/推荐给所有朋友/g, "分享给有类似需求的朋友"],
+        [/再不买就亏大了/g, "可以根据实际需求理性选择"],
+        [/最后3个名额/g, "名额情况以页面显示为准"],
+        [/今天不报就没机会了/g, "可在活动期内了解课程安排"],
+        [/喝了就能瘦/g, "可作为日常饮食管理的参考选择"],
+        [/0负担0风险/g, "建议结合自身情况选择"],
+        [/明星同款/g, "产品风格较受关注"],
+        [/全网最低价/g, "活动价以官方页面为准"],
+        [/只要坚持一周就能看到明显变化/g, "具体体验因人而异"]
+      ],
+      rewriteSentence(sentence, item, style) {
+        let output = sentence;
+        this.replacements.forEach(([pattern, value]) => {
+          output = output.replace(pattern, value);
+        });
+        if (output === sentence && item) {
+          output = `${sentence.replace(/[！!]+/g, "。")} 建议调整为更克制、可验证的表达，并补充适用条件。`;
+        }
+        if (style === "safe") {
+          return output
+            .replace(/太神了/g, "体验较有特点")
+            .replace(/马上/g, "持续使用后可能")
+            .replace(/必定/g, "可能")
+            .replace(/一定/g, "可能")
+            .replace(/所有/g, "部分");
+        }
+        if (style === "balanced") {
+          return output
+            .replace(/可以结合自身需求了解/g, "如果你正在关注这类需求，可以重点了解")
+            .replace(/部分用户反馈/g, "不少用户关注")
+            .replace(/建议结合自身情况选择/g, "更适合作为日常选择时的参考")
+            .replace(/理性选择/g, "在活动期内按需选择");
+        }
+        return output
+          .replace(/闭眼入/g, "值得按需了解")
+          .replace(/亏大了/g, "可能会错过当前活动")
+          .replace(/神器/g, "亮点产品")
+          .replace(/必定/g, "有机会")
+          .replace(/100%/g, "建议结合实际情况");
+      },
+      build(text, riskItems) {
+        const sentences = TextToolkit.splitSentences(text);
+        const itemMap = new Map(riskItems.map(item => [item.sentence, item]));
+        const compose = style => sentences.map(sentence => this.rewriteSentence(sentence, itemMap.get(sentence), style)).join("");
+        let safeVersion = compose("safe");
+        let balancedVersion = compose("balanced");
+        let originalStyleVersion = compose("style");
+        if (!riskItems.length) {
+          safeVersion = `${text} 建议结合自身情况选择，具体信息以官方页面或实际说明为准。`;
+          balancedVersion = `${text} 可以补充适用人群、使用场景和信息来源，让表达更完整可信。`;
+          originalStyleVersion = `${text} 信息以官方页面为准，建议按自身需求理性选择。`;
+        }
+        if (riskItems.length && safeVersion === text) safeVersion = `${text} 建议弱化确定性表达，并补充适用条件和证据来源。`;
+        if (riskItems.length && balancedVersion === text) balancedVersion = `${text} 建议保留核心卖点，同时删除无法证明的承诺表达。`;
+        if (riskItems.length && originalStyleVersion === text) originalStyleVersion = `${text} 建议保留原有语气，但替换绝对化和过度承诺词。`;
+        return {
+          safeVersion,
+          balancedVersion,
+          originalStyleVersion,
+          rewriteNotes: this.buildNotes(riskItems)
+        };
+      },
+      buildNotes(riskItems) {
+        const types = new Set(riskItems.flatMap(item => item.riskTypes));
+        const notes = [];
+        if (types.has("绝对化表达")) notes.push("删除或弱化绝对化排名和确定性表述。");
+        if (types.has("夸大效果") || types.has("功效承诺")) notes.push("弱化功效承诺，补充效果因人而异和适用条件。");
+        if (types.has("证据不足")) notes.push("补充证据来源或删除无法证明的权威背书。");
+        if (types.has("价格误导")) notes.push("明确价格活动规则、时间范围和库存依据。");
+        if (types.has("广告属性不透明")) notes.push("补充推广、合作或购买引导关系说明。");
+        if (types.has("焦虑营销")) notes.push("减少强促销和焦虑话术，改为理性推荐。");
+        if (!notes.length) notes.push("未发现明显高风险表达，已补充更可信的适用条件和信息来源提示。");
+        return notes;
+      }
+    };
+
+    const SuggestionEngine = {
+      build(riskItems) {
+        const types = new Set(riskItems.flatMap(item => item.riskTypes));
+        const suggestions = [];
+        if (types.has("证据不足")) suggestions.push("补充数据来源、检测报告、统计口径、专家身份或背书依据。");
+        if (types.has("广告属性不透明")) suggestions.push("如果内容包含合作、试用、赞助或购买链接，建议明确说明推广关系。");
+        if (types.has("绝对化表达")) suggestions.push("弱化“第一、最好、100%”等绝对化表达，改用更克制的相对描述。");
+        if (types.has("夸大效果") || types.has("功效承诺")) suggestions.push("删除确定性效果承诺，增加“具体效果因人而异”的适用条件提示。");
+        if (types.has("价格误导")) suggestions.push("明确活动时间、库存数量和价格对比口径，避免制造虚假稀缺感。");
+        if (types.has("用户评价滥用")) suggestions.push("避免用个别体验代表所有用户，必要时说明样本来源和反馈范围。");
+        if (types.has("焦虑营销")) suggestions.push("把强刺激话术调整为理性推荐，保留卖点但减少压力感。");
+        if (!suggestions.length) suggestions.push("当前文本风险较低，建议继续补充真实证据和适用条件，提高品牌可信度。");
+        return suggestions;
+      },
+      checklist(riskItems) {
+        const types = new Set(riskItems.flatMap(item => item.riskTypes));
+        return [
+          ["是否不存在绝对化表达", !types.has("绝对化表达")],
+          ["是否不存在功效承诺", !types.has("功效承诺")],
+          ["是否提供数据来源或证据依据", !types.has("证据不足")],
+          ["是否标明广告、合作或购买引导关系", !types.has("广告属性不透明")],
+          ["是否不存在价格误导或虚假稀缺", !types.has("价格误导")],
+          ["是否避免虚构用户、专家或测评场景", !types.has("内容真实性风险")],
+          ["是否避免焦虑营销", !types.has("焦虑营销")],
+          ["是否保留真实、克制、可验证的表达", riskItems.length <= 2]
+        ].map(([item, passed]) => ({ item, passed }));
+      }
+    };
+
+    const ReportGenerator = {
+      publishSuggestion(level) {
+        if (level === "低风险") return "基本可发布，建议补充证据和适用条件后再确认。";
+        if (level === "中风险") return "建议修改部分表达后发布。";
+        if (level === "高风险") return "存在明显不稳妥表达，建议重点修改后再发布。";
+        return "不建议直接发布，需要重写关键卖点和承诺表达。";
+      },
+      buildSummary(risk, trust, riskItems) {
+        const riskCount = {
+          high: riskItems.filter(item => item.riskLevel === "高").length,
+          medium: riskItems.filter(item => item.riskLevel === "中").length,
+          low: riskItems.filter(item => item.riskLevel === "低").length
+        };
+        return {
+          riskScore: risk.score,
+          riskLevel: risk.level,
+          trustScore: trust.score,
+          trustLevel: trust.level,
+          publishSuggestion: this.publishSuggestion(risk.level),
+          topRisks: this.topRisks(riskItems),
+          riskCount
+        };
+      },
+      topRisks(riskItems) {
+        const candidates = [];
+        const types = new Set(riskItems.flatMap(item => item.riskTypes));
+        if (types.has("功效承诺") || types.has("夸大效果")) candidates.push("存在确定性功效承诺，容易造成消费者误解。");
+        if (types.has("证据不足")) candidates.push("权威背书或效果数据缺少来源，证据支撑不足。");
+        if (types.has("焦虑营销") || types.has("价格误导")) candidates.push("使用强促销和焦虑话术，可能削弱品牌可信度。");
+        if (types.has("广告属性不透明")) candidates.push("广告或购买引导关系不够透明，影响消费者判断。");
+        if (types.has("绝对化表达")) candidates.push("存在绝对化排名或承诺表达，发布前需要重点修改。");
+        return candidates.slice(0, 3);
+      },
+      markdown(result) {
+        const risks = result.riskItems.length
+          ? result.riskItems.map((item, index) => `${index + 1}. ${item.sentence}\n   - 风险类型：${item.riskTypes.join("、")}\n   - 风险等级：${item.riskLevel}\n   - 影响维度：${item.affectedDimensionLabels.join("、")}\n   - 风险原因：${item.reason}\n   - 需要补充的证据：${item.evidenceNeeded || "暂无"}\n   - 建议改写：${item.rewrite}`).join("\n")
+          : "暂无明显信任阻碍点。";
+        const riskDimensions = Object.entries(result.dimensionScores.riskDimensions).map(([key, value]) => `- ${RiskDimensionMeta[key].label}：${value}/100`).join("\n");
+        const trustDimensions = Object.entries(result.dimensionScores.trustDimensions).map(([key, value]) => `- ${TrustDimensionMeta[key].label}：${value}/100`).join("\n");
+        const topRisks = result.summary.topRisks.length ? result.summary.topRisks.map(item => `- ${item}`).join("\n") : "- 暂无明显主要风险。";
+        const suggestions = result.trustSuggestions.map(item => `- ${item}`).join("\n");
+        const checklist = result.checklist.map(item => `- ${item.passed ? "通过" : "需修改"}：${item.item}`).join("\n");
+        const notes = result.rewrites.rewriteNotes.map(item => `- ${item}`).join("\n");
+
+        return `# AdTrust AI 信任转化优化报告
+
+## 1. 基本信息
+- 内容类型：${result.basicInfo.contentType}
+- 行业类别：${result.basicInfo.industry}
+- 内容目的：${result.basicInfo.intent}
+- 目标受众：${result.basicInfo.targetAudienceGuess}
+- 分析模式：${result.basicInfo.mode}
+
+## 2. 综合结论
+- 综合风险等级：${result.summary.riskLevel}
+- 合规安全度：${Math.max(0, 100 - result.summary.riskScore)}/100
+- 品牌信任分：${result.summary.trustScore}/100
+- 品牌信任等级：${result.summary.trustLevel}
+- 营销优化建议：${result.summary.publishSuggestion}
+- 高风险数量：${result.summary.riskCount.high}
+- 中风险数量：${result.summary.riskCount.medium}
+- 低风险数量：${result.summary.riskCount.low}
+
+## 3. 合规底线维度
+${riskDimensions}
+
+## 4. 品牌信任维度评分
+${trustDimensions}
+
+## 5. 主要信任阻碍摘要
+${topRisks}
+
+## 6. 逐句信任阻碍标注
+${risks}
+
+## 7. 多风格改写结果
+### 高信任版
+${result.rewrites.safeVersion}
+
+### 高转化版
+${result.rewrites.balancedVersion}
+
+### 原风格优化版
+${result.rewrites.originalStyleVersion}
+
+### 改写说明
+${notes}
+
+## 8. 信任增强建议
+${suggestions}
+
+## 9. 信任与合规底线清单
+${checklist}
+
+## 10. 免责声明
+${result.disclaimer}`;
+      }
+    };
+
+    const AuditOrchestrator = {
+      run(request) {
+        const basicInfo = ContentClassifier.analyze(request);
+        const riskItems = LocalRuleEngine.detect(request.text);
+        riskItems.forEach(item => {
+          item.rewrite = RewriteEngine.rewriteSentence(item.sentence, item, "balanced");
+        });
+        const risk = ScoringModel.scoreRisk(riskItems);
+        const trust = ScoringModel.scoreTrust(risk.score, riskItems);
+        const rewrites = RewriteEngine.build(request.text, riskItems);
+        const summary = ReportGenerator.buildSummary(risk, trust, riskItems);
+        const dimensionScores = {
+          riskDimensions: risk.dimensions,
+          trustDimensions: trust.dimensions
+        };
+        const result = {
+          id: `audit-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          originalText: request.text,
+          request,
+          promptPreview: PromptTemplateModule.buildUserPrompt(request),
+          basicInfo,
+          summary,
+          dimensionScores,
+          riskItems,
+          risk,
+          trust,
+          rewrites,
+          trustSuggestions: SuggestionEngine.build(riskItems),
+          checklist: SuggestionEngine.checklist(riskItems),
+          disclaimer: "本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。"
+        };
+        result.markdownReport = ReportGenerator.markdown(result);
+        return result;
+      }
+    };
+
+    const MarketingOptimizer = {
+      audienceLabels: {
+        auto: "自动推断",
+        student: "学生党",
+        white_collar: "精致白领",
+        ingredient: "成分党",
+        price_sensitive: "价格敏感型",
+        result_oriented: "功效导向型",
+        beginner: "新手小白",
+        expert: "专业达人",
+        mom: "宝妈人群",
+        senior: "银发人群",
+        other: "其他"
+      },
+      platformLabels: {
+        xiaohongshu: "小红书",
+        douyin: "抖音",
+        shipinhao: "视频号",
+        tmall: "淘宝/天猫",
+        jd: "京东",
+        wechat: "微信私域",
+        offline: "线下海报",
+        general: "通用"
+      },
+      run(request) {
+        const frictionItems = LocalRuleEngine.detect(request.text || request.imageText || request.sellingPoints || "");
+        const consumerProfile = this.buildConsumerProfile(request);
+        const metrics = this.score(request, frictionItems);
+        const rewrites = this.rewrite(request, frictionItems);
+        const result = {
+          id: `opt-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          originalText: request.text,
+          request,
+          consumerProfile,
+          metrics,
+          summary: {
+            marketingConclusion: this.conclusion(metrics, request),
+            trustScore: metrics.trustScore,
+            conversionAppeal: metrics.conversionAppeal,
+            audienceFit: metrics.audienceFit,
+            sellingPointClarity: metrics.sellingPointClarity,
+            complianceSafety: metrics.complianceSafety
+          },
+          frictionItems: this.buildFrictionItems(frictionItems),
+          conversionLosses: this.conversionLosses(request, metrics),
+          circlePreference: this.circlePreference(request),
+          complianceReminders: this.complianceReminders(frictionItems),
+          rewrites,
+          markdownReport: "",
+          disclaimer: "本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。"
+        };
+        result.markdownReport = this.markdown(result);
+        result.notice = "当前为第一批前端优化版本，图片识别暂以预览和手动录入文字为准。";
+        return result;
+      },
+      buildConsumerProfile(request) {
+        const audience = request.targetAudience === "auto" ? this.inferAudience(request) : this.audienceLabels[request.targetAudience];
+        const category = FieldLabels.industry[request.productCategory] || "其他";
+        return {
+          inferredAudience: audience,
+          motivation: request.adGoal === "promotion" ? "希望在明确权益下快速做出购买决策" : "希望先建立理解和信任，再判断是否值得尝试",
+          priceSensitivity: /低价|优惠|折扣|活动|赠品|学生|性价比/.test(`${request.priceRange} ${request.sellingPoints} ${request.text}`) ? "较高" : "中等",
+          mainConcerns: request.proofMaterials ? "效果是否真实、材料是否可信、是否适合自己" : "证据不足、效果不确定、购买理由是否充分",
+          preferredTone: this.circlePreference(request).preferredExpression,
+          purchaseTrigger: request.adGoal === "promotion" ? "明确权益、活动规则和立即行动理由" : "真实体验、清晰卖点和可验证依据",
+          category
+        };
+      },
+      inferAudience(request) {
+        const text = `${request.productName} ${request.productCategory} ${request.priceRange} ${request.sellingPoints} ${request.text}`;
+        if (/成分|配方|参数|检测|报告/.test(text)) return "成分党";
+        if (/学生|平价|预算|性价比/.test(text)) return "学生党";
+        if (/通勤|精致|效率|质感/.test(text)) return "精致白领";
+        if (/宝妈|孩子|家庭|安全/.test(text)) return "宝妈人群";
+        return "功效导向型";
+      },
+      score(request, frictionItems) {
+        const text = `${request.productName} ${request.sellingPoints} ${request.proofMaterials} ${request.text} ${request.imageText}`;
+        const hasProof = !!request.proofMaterials.trim();
+        const hasCta = /下单|领取|咨询|预约|点击|私信|到店|购买|报名|锁定/.test(text);
+        const hasEmotion = /焦虑|省心|安心|舒服|适合|通勤|场景|问题|需求|体验/.test(text);
+        const clarityBase = request.sellingPoints.trim().length > 12 ? 78 : 55;
+        const frictionPenalty = frictionItems.length * 7;
+        return {
+          trustScore: clamp((hasProof ? 82 : 62) - frictionPenalty + (request.complianceStrength === "strict" ? 6 : 0)),
+          conversionAppeal: clamp((hasCta ? 78 : 58) + (request.marketingStyle === "conversion" ? 10 : 0) + (hasEmotion ? 6 : 0)),
+          audienceFit: clamp((request.targetAudience !== "auto" ? 76 : 66) + (request.targetPlatform !== "general" ? 8 : 0)),
+          sellingPointClarity: clamp(clarityBase + (request.productName ? 6 : 0)),
+          complianceSafety: clamp(88 - frictionPenalty + (request.complianceStrength === "strict" ? 8 : request.complianceStrength === "loose" ? -6 : 0))
+        };
+      },
+      buildFrictionItems(riskItems) {
+        if (!riskItems.length) {
+          return [{
+            name: "证明材料表达仍可加强",
+            trustImpact: "消费者可能理解卖点，但缺少进一步确认依据。",
+            conversionImpact: "会降低临门一脚的购买信心。",
+            complianceBaseline: "否",
+            suggestion: "补充用户反馈、活动规则、成分说明或真实使用场景。"
+          }];
+        }
+        return riskItems.map(item => ({
+          name: item.riskTypes[0] || "信任阻碍点",
+          trustImpact: item.reason,
+          conversionImpact: "可能让消费者产生怀疑，降低继续了解或购买的意愿。",
+          complianceBaseline: item.riskLevel === "高" ? "是" : "可能涉及",
+          suggestion: item.rewrite
+        }));
+      },
+      conversionLosses(request, metrics) {
+        const losses = [];
+        if (metrics.sellingPointClarity < 70) losses.push("卖点不够清晰，用户难以快速理解产品价值。");
+        if (metrics.conversionAppeal < 70) losses.push("行动召唤偏弱，缺少明确下一步动作。");
+        if (!request.proofMaterials.trim()) losses.push("证明材料不足，可信度支撑不够。");
+        if (metrics.audienceFit < 72) losses.push("圈层语言不够精准，目标人群代入感不足。");
+        if (!losses.length) losses.push("当前转化链路较完整，建议继续强化证据和平台表达细节。");
+        return losses;
+      },
+      circlePreference(request) {
+        const audience = request.targetAudience === "auto" ? this.inferAudience(request) : this.audienceLabels[request.targetAudience];
+        const map = {
+          "成分党": ["清晰成分、参数依据、检测来源", "夸张效果、空泛背书", "成分、浓度、检测、适用肤质", "理性、具体、证据优先"],
+          "学生党": ["性价比、真实体验、低试错成本", "高压促销、过度制造焦虑", "平价、预算友好、通勤、入门", "轻松、直接、有生活感"],
+          "精致白领": ["效率、质感、稳定体验", "廉价感、强吆喝", "省心、质感、通勤、稳定", "克制、专业、品牌感"],
+          "宝妈人群": ["安全、口碑、适用条件", "绝对化安全承诺", "安心、温和、适合家庭", "可靠、清楚、有边界"],
+          "功效导向型": ["明确问题、改善路径、可验证反馈", "过度承诺、无依据见效", "改善、反馈、周期、适用条件", "结果清晰但不过度承诺"]
+        };
+        const data = map[audience] || map["功效导向型"];
+        return {
+          audience,
+          likes: data[0],
+          dislikes: data[1],
+          matchLevel: request.targetAudience === "auto" ? "中等" : "中等偏高",
+          recommendedKeywords: data[2],
+          preferredExpression: data[3]
+        };
+      },
+      complianceReminders(frictionItems) {
+        return frictionItems.length
+          ? frictionItems.map(item => `避免保留“${item.name || "信任阻碍表达"}”相关的不确定表达，补充可验证依据。`).slice(0, 4)
+          : ["合规底线问题较少，但仍建议发布前复核平台规则、活动规则和证明材料。"];
+      },
+      rewrite(request, frictionItems) {
+        const product = request.productName || "这款产品";
+        const points = request.sellingPoints.trim() || "核心卖点清晰，适合有相关需求的人群";
+        const proof = request.proofMaterials.trim() || "建议结合官方说明、真实反馈和自身需求判断";
+        const platform = this.platformLabels[request.targetPlatform] || "通用";
+        return {
+          highTrustVersion: `${product}主打${points.replace(/\n/g, "、")}。如果你正在比较同类产品，可以先关注它的适用场景、使用条件和相关依据。${proof}，具体体验建议以个人实际情况为准。`,
+          highConversionVersion: `如果你正在寻找${points.split("\n")[0] || "更合适的选择"}，可以优先了解${product}。当前重点权益和适用理由已经比较明确，建议先确认需求是否匹配，再根据活动规则完成下一步咨询或购买。`,
+          seedingRealVersion: `最近在看同类产品时，${product}比较值得放进备选。它吸引我的点是${points.split("\n").slice(0, 2).join("、") || "卖点比较清楚"}，不是所有人都一定适合，但如果你的需求接近，可以结合评价和说明再判断。`,
+          gentleUrgencyVersion: `这轮活动适合已经在比较同类产品的人先锁定权益。建议先看清${product}的适用条件、活动规则和证明材料，确认符合自己的需求后再决定是否参与。`,
+          platformVersion: this.platformRewrite(platform, product, points, proof),
+          rewriteDiff: [
+            "删除或弱化不可信的绝对化表达。",
+            "保留活动权益、使用场景和购买理由。",
+            "补充适用条件、证明材料和官方说明口径。",
+            "根据目标平台调整语气和信息密度。",
+            "保留合规底线，不输出无法证明的承诺。"
+          ],
+          versionMeta: {
+            highTrustVersion: ["品牌官方、详情页", "理性比较型消费者", "保留产品价值和证明材料", "降低证据不足和夸张承诺", "先建立可信依据，再引导了解"],
+            highConversionVersion: ["促销、私域、电商", "有明确需求的人群", "保留权益和行动召唤", "降低强压迫感", "用购买理由推动下一步动作"],
+            seedingRealVersion: ["小红书、短视频口播", "新手小白、种草用户", "保留体验感和真实语气", "降低广告感", "用真实场景建立兴趣"],
+            gentleUrgencyVersion: ["活动页、直播预告、私域", "已在比较的人群", "保留限时感", "降低虚假稀缺", "把紧迫感解释为具体活动规则"],
+            platformVersion: [platform, "平台目标消费者", "保留平台表达节奏", "降低平台不适配表达", "按平台语境组织卖点"]
+          }
+        };
+      },
+      platformRewrite(platform, product, points, proof) {
+        if (platform === "小红书") return `做了一轮同类对比后，${product}比较适合先收藏。它的核心亮点是${points.replace(/\n/g, "、")}，建议结合自己的需求和真实反馈再判断。`;
+        if (platform === "抖音") return `先说结论：如果你正在找一款卖点清楚、适用场景明确的产品，${product}可以重点看。核心利益点是${points.replace(/\n/g, "、")}，下单前记得确认活动规则。`;
+        if (platform === "微信私域") return `给大家一个理性参考：${product}适合有相关需求的人先了解。卖点是${points.replace(/\n/g, "、")}，证明材料可参考：${proof}。需要的话可以先确认是否匹配。`;
+        return `${product}的核心价值是${points.replace(/\n/g, "、")}。建议结合${proof}进行判断，并根据目标平台调整表达节奏和行动入口。`;
+      },
+      conclusion(metrics, request) {
+        if (metrics.trustScore < 65 && metrics.conversionAppeal >= 70) return "当前文案信任感不足，但具备一定转化潜力，建议保留紧迫感，同时补充真实依据。";
+        if (metrics.conversionAppeal >= 75 && metrics.audienceFit < 70) return "当前文案吸引力较强，但目标人群不够精准，建议强化目标圈层语言。";
+        if (metrics.complianceSafety < 70) return "当前文案促销氛围较好，但证明材料或表达边界不足，建议补充活动规则和真实反馈。";
+        return "当前文案具备基础信任感和转化潜力，建议进一步强化目标人群语言和购买理由。";
+      },
+      markdown(result) {
+        return `# AdTrust AI 消费者信任与广告转化优化报告\n\n## 营销优化结论\n${result.summary.marketingConclusion}\n\n## 五项核心指标\n- 消费者信任度：${result.metrics.trustScore}\n- 转化吸引力：${result.metrics.conversionAppeal}\n- 圈层匹配度：${result.metrics.audienceFit}\n- 卖点清晰度：${result.metrics.sellingPointClarity}\n- 合规安全度：${result.metrics.complianceSafety}\n\n## 消费者画像\n- 推断目标人群：${result.consumerProfile.inferredAudience}\n- 消费动机：${result.consumerProfile.motivation}\n- 主要顾虑：${result.consumerProfile.mainConcerns}\n\n## 信任阻碍点\n${result.frictionItems.map(item => `- ${item.name}：${item.suggestion}`).join("\n")}\n\n## 多风格改写\n### 高信任版\n${result.rewrites.highTrustVersion}\n\n### 高转化版\n${result.rewrites.highConversionVersion}\n\n### 种草真实版\n${result.rewrites.seedingRealVersion}\n\n### 温和紧迫版\n${result.rewrites.gentleUrgencyVersion}\n\n### 平台适配版\n${result.rewrites.platformVersion}\n\n## 免责声明\n${result.disclaimer}`;
+      }
+    };
+
+    function clamp(value) {
+      return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    const AuditService = {
+      async audit(request) {
+        try {
+          const response = await fetch("/api/audit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.toApiRequest(request))
+          });
+          if (!response.ok) throw new Error("后端诊断接口暂不可用");
+          const result = await response.json();
+          return this.normalizeApiResult(result, request);
+        } catch (error) {
+          const fallback = MarketingOptimizer.run(request);
+          fallback.notice = "当前为本地规则演示模式，启动后端并配置 DeepSeek API 后可开启深度改写。";
+          return fallback;
+        }
+      },
+      async extractImage(image) {
+        try {
+          const response = await fetch("/api/extract-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ imageBase64: image.dataUrl, fileName: image.name })
+          });
+          if (!response.ok) throw new Error("图片识别暂不可用");
+          return response.json();
+        } catch (error) {
+          return {
+            imageText: "",
+            visualDescription: "图片识别暂不可用，请手动输入图片中的文字。",
+            marketingObservations: ["请手动补充主标题、价格权益和行动按钮信息。"],
+            provider: "manualFallback"
+          };
+        }
+      },
+      async rewriteChat({ auditResult, userMessage, history }) {
+        const response = await fetch("/api/rewrite-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ auditResult, userMessage, history })
+        });
+        if (!response.ok) throw new Error("继续追问暂不可用");
+        return response.json();
+      },
+      toApiRequest(request) {
+        return {
+          product: {
+            name: request.productName,
+            category: FieldLabels.industry[request.productCategory] || "其他",
+            priceRange: request.priceRange,
+            sellingPoints: request.sellingPoints.split(/\n|；|;/).map(item => item.trim()).filter(Boolean),
+            proofMaterials: request.proofMaterials.split(/\n|；|;/).map(item => item.trim()).filter(Boolean)
+          },
+          creative: {
+            text: request.text,
+            imageTexts: [request.imageText].filter(Boolean),
+            imageDescriptions: (request.images || []).map(image => `${image.name}，图片类型：${request.imageType}`),
+            objective: this.objectiveLabel(request.adGoal)
+          },
+          context: {
+            platform: MarketingOptimizer.platformLabels[request.targetPlatform] || "通用",
+            targetAudience: MarketingOptimizer.audienceLabels[request.targetAudience] || "自动推断",
+            marketingStyle: this.styleLabel(request.marketingStyle),
+            complianceMode: request.complianceStrength
+          }
+        };
+      },
+      objectiveLabel(value) {
+        return {
+          seeding: "种草",
+          promotion: "促销转化",
+          live: "直播带货",
+          launch: "新品上市",
+          trust_repair: "品牌信任修复",
+          private_conversion: "私域社群转化"
+        }[value] || "种草";
+      },
+      styleLabel(value) {
+        return {
+          seeding: "真实种草",
+          trustworthy: "专业可信",
+          conversion: "高转化促销",
+          gentle_urgency: "温和紧迫",
+          emotional: "情绪共鸣",
+          premium: "高级品牌感",
+          young: "年轻化口语",
+          live_interactive: "直播间强互动"
+        }[value] || "专业可信";
+      },
+      normalizeApiResult(result, request) {
+        if (result.metrics && result.consumerProfile) return result;
+        const scores = result.scores || {};
+        const insight = result.consumerInsight || {};
+        const diagnosis = result.diagnosis || {};
+        const basic = result.basicInfo || {};
+        const rewrites = result.rewrites || {};
+        return {
+          id: result.id || `audit-${Date.now()}`,
+          createdAt: result.createdAt || new Date().toISOString(),
+          originalText: request.text,
+          request,
+          summary: { marketingConclusion: this.marketingConclusion(scores) },
+          metrics: {
+            trustScore: scores.trustScore || 0,
+            conversionAppeal: scores.conversionAppeal || 0,
+            audienceFit: scores.audienceFit || 0,
+            sellingPointClarity: scores.sellingPointClarity || 0,
+            complianceSafety: scores.complianceSafety || 0
+          },
+          consumerProfile: {
+            inferredAudience: basic.detectedAudience || insight.persona || "自动推断",
+            motivation: insight.purchaseMotivation || "希望先建立信任，再判断是否值得尝试",
+            priceSensitivity: request.priceRange ? "中等" : "待判断",
+            mainConcerns: (insight.mainObjections || []).join("、") || "证据是否充分、是否适合自己",
+            preferredTone: (insight.preferredLanguage || []).join("、"),
+            purchaseTrigger: (insight.purchaseTriggers || []).join("、"),
+            category: basic.category || FieldLabels.industry[request.productCategory] || "其他"
+          },
+          circlePreference: {
+            audience: basic.detectedCircle || basic.detectedAudience || "目标消费者",
+            likes: insight.circlePreference || "偏好真实、具体、有依据的表达",
+            dislikes: "无证据承诺、虚假稀缺和过度硬广",
+            matchLevel: (scores.audienceFit || 0) >= 75 ? "中等偏高" : "中等",
+            recommendedKeywords: (insight.preferredLanguage || []).join("、") || "真实、场景、适用条件",
+            preferredExpression: insight.circlePreference || "真实、具体、有行动入口"
+          },
+          frictionItems: (diagnosis.trustBarriers || []).map(item => typeof item === "string" ? {
+            name: item,
+            trustImpact: item,
+            conversionImpact: "可能降低继续了解和购买的意愿。",
+            complianceBaseline: "可能涉及",
+            suggestion: "补充真实依据并重写表达。"
+          } : {
+            name: item.name || "信任阻碍点",
+            trustImpact: item.impactOnTrust || item.reason || "",
+            conversionImpact: item.impactOnConversion || "可能降低转化意愿。",
+            complianceBaseline: item.complianceRelated ? "是" : "否",
+            suggestion: item.suggestion || ""
+          }),
+          conversionLosses: diagnosis.conversionBlockers || [],
+          complianceReminders: diagnosis.complianceGuardrails || [],
+          caseReferences: result.caseReferences || [],
+          legalReferences: result.legalReferences || [],
+          rewrites: {
+            highTrustVersion: rewrites.highTrustVersion || "",
+            highConversionVersion: rewrites.highConversionVersion || "",
+            seedingRealVersion: rewrites.seedingVersion || "",
+            gentleUrgencyVersion: rewrites.softUrgencyVersion || "",
+            platformVersion: rewrites.platformAdaptedVersion || "",
+            rewriteDiff: result.rewriteRationales || [],
+            versionMeta: this.versionMeta(result, request)
+          },
+          chatStarters: result.chatStarters || [],
+          markdownReport: result.markdownReport || "",
+          disclaimer: result.disclaimer || "本报告仅用于广告信任与转化优化、消费者理解分析和文本改写建议，不构成法律意见或平台审核结论。",
+          notice: result.notice || ""
+        };
+      },
+      marketingConclusion(scores) {
+        if ((scores.trustScore || 0) < 65 && (scores.conversionAppeal || 0) >= 70) return "当前文案信任感不足，但具备一定转化潜力，建议保留紧迫感，同时补充真实依据。";
+        if ((scores.conversionAppeal || 0) >= 75 && (scores.audienceFit || 0) < 70) return "当前文案吸引力较强，但目标人群不够精准，建议强化目标圈层语言。";
+        if ((scores.complianceSafety || 0) < 70) return "当前文案促销氛围较好，但证明材料或表达边界不足，建议补充活动规则和真实反馈。";
+        return "当前文案具备基础信任感和转化潜力，建议进一步强化目标人群语言和购买理由。";
+      },
+      versionMeta(result, request) {
+        const audience = result.basicInfo?.detectedAudience || "目标消费者";
+        const platform = result.basicInfo?.platform || MarketingOptimizer.platformLabels[request.targetPlatform] || "通用";
+        return {
+          highTrustVersion: ["品牌官方、详情页", audience, "保留产品价值和证明材料", "降低证据不足", "先建立可信依据，再引导了解"],
+          highConversionVersion: ["促销、私域、电商", audience, "保留权益和行动召唤", "降低虚假稀缺", "用购买理由推动下一步动作"],
+          seedingRealVersion: ["小红书、短视频口播", audience, "保留体验感", "降低广告感", "用真实场景建立兴趣"],
+          gentleUrgencyVersion: ["活动页、直播预告、私域", audience, "保留限时感", "降低压力销售", "把紧迫感解释为具体活动规则"],
+          platformVersion: [platform, audience, "保留平台表达节奏", "降低平台不适配表达", "按平台语境组织卖点"]
+        };
+      },
+      normalizeResult(result, request) {
+        result.originalText = result.originalText || request.text;
+        result.request = result.request || request;
+        result.disclaimer = result.disclaimer || "本报告仅用于营销内容风险提示、消费者信任分析和文本优化建议，不构成法律意见或平台审核结论。正式发布前，建议结合企业内部规范、平台规则和专业意见进行复核。";
+        if (!result.markdownReport) result.markdownReport = ReportGenerator.markdown(result);
+        if (result.riskItems) {
+          result.riskItems = result.riskItems.map((item, index) => ({
+            id: item.id || `risk-${index + 1}`,
+            sentence: item.sentence || "",
+            riskTypes: item.riskTypes || [],
+            riskLevel: item.riskLevel || "中",
+            affectedDimensions: item.affectedDimensions || [],
+            affectedDimensionLabels: item.affectedDimensionLabels || (item.affectedDimensions || []).map(key => RiskDimensionMeta[key]?.label || key),
+            reason: item.reason || "该表达在当前语境下可能影响消费者理解。",
+            evidenceNeeded: item.evidenceNeeded || "相关事实依据",
+            rewrite: item.rewrite || RewriteEngine.rewriteSentence(item.sentence || "", item, "balanced")
+          }));
+        }
+        return result;
+      }
+    };
+
+    const UI = {
+      appState: {
+        step: "home",
+        request: {
+          text: "",
+          contentType: "auto",
+          industry: "auto",
+          mode: "deep",
+          tone: "balanced",
+          images: []
+        },
+        result: null,
+        history: [],
+        chatHistory: []
+      },
+      processStep: 0,
+      init() {
+        this.bindEvents();
+        this.updateCharCount();
+        this.loadHistory();
+        this.renderProcess("idle");
+        this.renderExamples();
+        this.renderHistory();
+        if (this.appState.history[0]) {
+          this.appState.result = this.appState.history[0].result;
+          this.renderReport(this.appState.result);
+          this.renderRewrite(this.appState.result);
+        }
+      },
+      bindEvents() {
+        document.body.addEventListener("click", event => {
+          const pageButton = event.target.closest("[data-page]");
+          if (pageButton) this.switchPage(pageButton.dataset.page);
+
+          const stageButton = event.target.closest("[data-stage]");
+          if (stageButton) this.switchStage(stageButton.dataset.stage);
+
+          const sampleButton = event.target.closest("[data-load-sample]");
+          if (sampleButton) this.loadSample(Number(sampleButton.dataset.loadSample));
+
+          const historyButton = event.target.closest("[data-history-id]");
+          if (historyButton) this.loadHistoryResult(historyButton.dataset.historyId);
+
+          const choiceButton = event.target.closest(".option-card[data-value]");
+          if (choiceButton) this.chooseOption(choiceButton);
+
+          const copyButton = event.target.closest("[data-copy]");
+          if (copyButton && this.appState.result) this.copyByKey(copyButton.dataset.copy);
+
+          const downloadButton = event.target.closest("[data-download]");
+          if (downloadButton && this.appState.result) this.downloadMarkdown();
+
+          const presentationButton = event.target.closest("#presentationBtn, #presentationExitBtn");
+          if (presentationButton) this.togglePresentationMode();
+
+          const chatStarter = event.target.closest("[data-chat-starter]");
+          if (chatStarter) this.applyChatStarter(chatStarter.dataset.chatStarter);
+
+          const chatSend = event.target.closest("#rewriteChatSend");
+          if (chatSend) this.sendRewriteChat();
+        });
+
+        document.querySelector("#auditForm").addEventListener("submit", event => {
+          event.preventDefault();
+          this.submitAudit();
+        });
+        document.querySelector("#nextConfigBtn").addEventListener("click", () => this.goToConfig());
+        document.querySelector("#adText").addEventListener("input", () => this.updateCharCount());
+        document.querySelector("#imageInput").addEventListener("change", event => this.handleImages(event));
+        document.querySelector("#clearBtn").addEventListener("click", () => this.clearForm());
+      },
+      switchPage(page) {
+        document.querySelectorAll(".page").forEach(section => section.classList.toggle("active", section.id === page));
+        document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === page));
+        this.appState.step = page;
+        if (page === "workspace") this.switchStage(this.appState.result ? "report" : "input");
+      },
+      switchStage(stage) {
+        document.querySelectorAll(".stage").forEach(section => section.classList.toggle("active", section.id === `stage-${stage}`));
+        document.querySelectorAll(".stepper button").forEach(button => button.classList.toggle("active", button.dataset.stage === stage));
+        this.appState.step = stage === "process" ? "auditing" : stage;
+      },
+      goToConfig() {
+        const text = document.querySelector("#adText").value.trim();
+        if (!text) {
+          this.toast("请先输入广告文本");
+          return;
+        }
+        this.switchStage("config");
+      },
+      updateCharCount() {
+        const text = document.querySelector("#adText").value;
+        document.querySelector("#charCount").textContent = `${text.length} / 5000`;
+      },
+      handleImages(event) {
+        const files = Array.from(event.target.files || []);
+        const readers = files.map(file => new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: reader.result });
+          reader.readAsDataURL(file);
+        }));
+        Promise.all(readers).then(images => {
+          this.appState.request.images = images;
+          document.querySelector("#imagePreviewGrid").innerHTML = images.map(image => `
+            <div class="image-preview">
+              <img src="${image.dataUrl}" alt="上传图片预览" />
+              <span>${TextToolkit.escapeHtml(image.name)}</span>
+            </div>
+          `).join("");
+          if (images[0]) {
+            AuditService.extractImage(images[0]).then(result => {
+              const current = document.querySelector("#imageText").value.trim();
+              if (!current && result.imageText) document.querySelector("#imageText").value = result.imageText;
+              this.toast(result.provider === "manualFallback" ? "图片已预览，请手动补充图片文字" : "图片识别完成");
+            });
+          }
+        });
+      },
+      chooseOption(button) {
+        const group = button.closest("[data-choice-group]");
+        const fieldId = group.dataset.choiceGroup;
+        group.querySelectorAll(".option-card").forEach(item => item.classList.toggle("active", item === button));
+        document.querySelector(`#${fieldId}`).value = button.dataset.value;
+        this.appState.request[fieldId] = button.dataset.value;
+      },
+      setChoice(fieldId, value) {
+        const field = document.querySelector(`#${fieldId}`);
+        field.value = value;
+        const group = document.querySelector(`[data-choice-group="${fieldId}"]`);
+        if (!group) return;
+        group.querySelectorAll(".option-card").forEach(item => item.classList.toggle("active", item.dataset.value === value));
+      },
+      readRequest() {
+        return {
+          text: document.querySelector("#adText").value.trim(),
+          productName: document.querySelector("#productName").value.trim(),
+          productCategory: document.querySelector("#productCategory").value,
+          priceRange: document.querySelector("#priceRange").value.trim(),
+          sellingPoints: document.querySelector("#sellingPoints").value.trim(),
+          proofMaterials: document.querySelector("#proofMaterials").value.trim(),
+          adGoal: document.querySelector("#adGoal").value,
+          imageType: document.querySelector("#imageType").value,
+          imageText: document.querySelector("#imageText").value.trim(),
+          images: this.appState.request.images || [],
+          targetPlatform: document.querySelector("#targetPlatform").value,
+          targetAudience: document.querySelector("#targetAudience").value,
+          marketingStyle: document.querySelector("#marketingStyle").value,
+          complianceStrength: document.querySelector("#complianceStrength").value,
+          contentType: document.querySelector("#contentType").value,
+          industry: document.querySelector("#industry").value,
+          mode: document.querySelector("#mode").value,
+          tone: document.querySelector("#tone").value
+        };
+      },
+      submitAudit() {
+        const request = this.readRequest();
+        if (!request.text) {
+          this.toast("请输入广告文本");
+          return;
+        }
+        if (request.text.length > 5000) {
+          this.toast("文本不能超过5000字");
+          return;
+        }
+        const submitBtn = document.querySelector("#submitBtn");
+        submitBtn.disabled = true;
+        this.appState.request = request;
+        this.switchStage("process");
+        this.animateProcess(async () => {
+          this.appState.result = await AuditService.audit(request);
+          this.appState.chatHistory = [];
+          this.saveHistory(this.appState.result);
+          this.renderReport(this.appState.result);
+          this.renderRewrite(this.appState.result);
+          submitBtn.disabled = false;
+          this.switchStage("report");
+          this.toast(this.appState.result.notice || "诊断完成");
+        });
+      },
+      animateProcess(done) {
+        const total = 5;
+        this.processStep = 0;
+        window.setTimeout(() => {
+          this.renderProcess("running", this.processStep);
+        }, 0);
+        const timer = window.setInterval(() => {
+          this.processStep += 1;
+          this.renderProcess(this.processStep >= total ? "done" : "running", this.processStep);
+          if (this.processStep >= total) {
+            window.clearInterval(timer);
+            window.setTimeout(done, 250);
+          }
+        }, 420);
+      },
+      renderProcess(state, completedCount = 0) {
+        const steps = [
+          ["正在识别消费者画像", "结合产品品类、价格、卖点和语气推断目标人群。"],
+          ["正在评估信任与转化", "计算消费者信任度、转化吸引力和卖点清晰度。"],
+          ["正在分析圈层匹配", "判断当前表达是否符合目标平台和圈层语言。"],
+          ["正在检查合规底线", "识别可能影响发布安全和品牌可信度的底线表达。"],
+          ["正在生成改写方案", "输出多风格广告文案、差异说明和展示报告。"]
+        ];
+        document.querySelector("#processGrid").innerHTML = steps.map((step, index) => {
+          const isDone = state === "done" || index < completedCount;
+          const isRunning = state === "running" && index === completedCount;
+          const className = isDone ? "done" : isRunning ? "running" : "";
+          const icon = isDone ? "✓" : index + 1;
+          return `<article class="process-card ${className}"><span class="process-status">${icon}</span><strong>${step[0]}</strong><p>${step[1]}</p></article>`;
+        }).join("");
+      },
+      renderReport(result) {
+        const reportBody = document.querySelector("#reportBody");
+        const metrics = result.metrics || {};
+        reportBody.innerHTML = `
+          <div class="summary-band featured">
+            <div>
+              <span class="section-label">营销优化结论</span>
+              <h1 class="summary-title">${TextToolkit.escapeHtml(result.summary.marketingConclusion)}</h1>
+              <p class="summary-sentence">${TextToolkit.escapeHtml(this.summarySentence(result))}</p>
+              <div class="tag-row">${result.frictionItems.map(item => `<span class="tag warn">${TextToolkit.escapeHtml(item.name)}</span>`).join("")}</div>
+              <div class="summary-metrics">
+                <div class="metric-pill"><span>目标人群</span><strong>${TextToolkit.escapeHtml(result.consumerProfile.inferredAudience)}</strong></div>
+                <div class="metric-pill"><span>平台</span><strong>${TextToolkit.escapeHtml(MarketingOptimizer.platformLabels[result.request.targetPlatform] || "通用")}</strong></div>
+                <div class="metric-pill"><span>信任阻碍</span><strong>${result.frictionItems.length}</strong></div>
+              </div>
+            </div>
+            <div class="score-pair">
+              ${this.gauge("消费者信任度", metrics.trustScore, this.metricLevel(metrics.trustScore), "var(--trust-cyan)")}
+              ${this.gauge("转化吸引力", metrics.conversionAppeal, this.metricLevel(metrics.conversionAppeal), "var(--conversion-gold)")}
+            </div>
+          </div>
+          <section class="card">
+            <h2>五项核心指标</h2>
+            <div class="dimension-list">
+              ${this.renderMetricBars(metrics)}
+            </div>
+          </section>
+          <div class="report-grid">
+            <div class="report-main">
+              <section class="card">
+                <h2>消费者画像</h2>
+                <div class="meta-grid">
+                  ${this.meta("推断目标人群", result.consumerProfile.inferredAudience)}
+                  ${this.meta("消费动机", result.consumerProfile.motivation)}
+                  ${this.meta("价格敏感度", result.consumerProfile.priceSensitivity)}
+                  ${this.meta("购买触发点", result.consumerProfile.purchaseTrigger)}
+                </div>
+              </section>
+              <section class="card">
+                <h2>圈层偏好分析</h2>
+                <div class="meta-grid">
+                  ${this.meta("喜欢的表达", result.circlePreference.likes)}
+                  ${this.meta("反感的表达", result.circlePreference.dislikes)}
+                  ${this.meta("匹配程度", result.circlePreference.matchLevel)}
+                  ${this.meta("推荐关键词", result.circlePreference.recommendedKeywords)}
+                </div>
+              </section>
+              <section class="card">
+                <h2>信任阻碍点</h2>
+                <div class="top-risk-grid">${this.renderFrictionCards(result.frictionItems)}</div>
+              </section>
+              <section class="card">
+                <h2>转化损耗点</h2>
+                <div class="tag-row">${result.conversionLosses.map(item => `<span class="tag warn">${TextToolkit.escapeHtml(item)}</span>`).join("")}</div>
+              </section>
+              <section class="card">
+                <h2>合规底线提醒</h2>
+                <div class="risk-list">${result.complianceReminders.map(item => `<article class="risk-item low"><p class="reason">${TextToolkit.escapeHtml(item)}</p></article>`).join("")}</div>
+              </section>
+              <section class="card">
+                <h2>参考案例</h2>
+                <p class="subcopy">案例库为课程项目模拟案例，用于学习分析，不代表真实品牌投放素材。</p>
+                <div class="risk-list">${(result.caseReferences || []).map(item => `
+                  <article class="risk-item low">
+                    <p class="sentence">${TextToolkit.escapeHtml(item.industry || "参考案例")} · ${TextToolkit.escapeHtml(item.platform || "")}</p>
+                    <p class="reason">${TextToolkit.escapeHtml((item.whyItWorks || []).join("；") || item.originalExample || "")}</p>
+                  </article>
+                `).join("") || `<p class="subcopy">暂无匹配案例。</p>`}</div>
+              </section>
+              <section class="card">
+                <h2>参考规则摘要</h2>
+                <div class="risk-list">${(result.legalReferences || []).map(item => `
+                  <article class="risk-item low">
+                    <p class="sentence">${TextToolkit.escapeHtml(item.topic || "规则摘要")}</p>
+                    <p class="reason">${TextToolkit.escapeHtml(item.summary || "")}</p>
+                    <p class="reason">${TextToolkit.escapeHtml(item.note || "仅作风险提示，不构成法律意见")}</p>
+                  </article>
+                `).join("") || `<p class="subcopy">暂无匹配规则摘要。</p>`}</div>
+              </section>
+            </div>
+            <aside class="report-side">
+              <section class="card">
+                <h2>素材与目标</h2>
+                <div class="meta-grid">
+                  ${this.meta("产品名称", result.request.productName || "未填写")}
+                  ${this.meta("产品品类", FieldLabels.industry[result.request.productCategory] || "其他")}
+                  ${this.meta("广告目标", this.goalLabel(result.request.adGoal))}
+                  ${this.meta("合规强度", this.complianceLabel(result.request.complianceStrength))}
+                </div>
+              </section>
+              <section class="card">
+                <h2>信任与合规底线清单</h2>
+                <ul class="checklist">${this.renderMarketingChecklist(result)}</ul>
+              </section>
+            </aside>
+          </div>
+          <section class="card">
+            <h2>展示报告</h2>
+            <div class="markdown-box">${TextToolkit.escapeHtml(result.markdownReport)}</div>
+          </section>
+          <div class="export-bar">
+            <button class="secondary-btn" type="button" id="presentationBtn">展示模式</button>
+            <button class="secondary-btn" data-copy="highTrust">复制高信任版</button>
+            <button class="secondary-btn" data-copy="highConversion">复制高转化版</button>
+            <button class="secondary-btn" data-copy="report">复制完整报告</button>
+            <button class="primary-btn" data-download="report">下载报告</button>
+          </div>
+        `;
+      },
+      renderRewrite(result) {
+        const rewrites = result.rewrites;
+        document.querySelector("#rewriteBody").innerHTML = `
+          <div class="rewrite-compare-grid">
+            <article class="rewrite-card original">
+              <h2>原文</h2>
+              <p class="subcopy">待优化的原始广告表达。</p>
+              <div class="rewrite-text">${TextToolkit.escapeHtml(result.originalText)}</div>
+            </article>
+            ${this.rewriteCard("高信任版", "强化真实感、证据感和透明度，适合品牌官方或详情页。", rewrites.highTrustVersion, "highTrust", rewrites.versionMeta.highTrustVersion)}
+            ${this.rewriteCard("高转化版", "强化利益点、行动召唤和购买理由，适合促销和私域。", rewrites.highConversionVersion, "highConversion", rewrites.versionMeta.highConversionVersion)}
+            ${this.rewriteCard("种草真实版", "更像真实体验分享，适合小红书和短视频口播。", rewrites.seedingRealVersion, "seeding", rewrites.versionMeta.seedingRealVersion)}
+            ${this.rewriteCard("温和紧迫版", "保留限时感和错失感，但用具体规则解释。", rewrites.gentleUrgencyVersion, "gentleUrgency", rewrites.versionMeta.gentleUrgencyVersion)}
+            ${this.rewriteCard("平台适配版", "根据目标平台调整节奏、语气和行动入口。", rewrites.platformVersion, "platform", rewrites.versionMeta.platformVersion)}
+          </div>
+          <section class="card">
+            <h2>改写差异说明</h2>
+            <div class="tag-row">
+              ${rewrites.rewriteDiff.map(item => `<span class="tag">${TextToolkit.escapeHtml(item)}</span>`).join("")}
+            </div>
+          </section>
+          <section class="card chat-panel">
+            <h2>继续追问</h2>
+            <p class="subcopy">可以继续要求系统按平台、人群、语气或标题方向二次改写。</p>
+            <div class="quick-grid">
+              ${(result.chatStarters || [
+                "帮我改得更像小红书",
+                "帮我改得更适合直播间",
+                "保留饥饿营销，但不要显得虚假",
+                "写得更短更有记忆点",
+                "强化学生党购买理由",
+                "强化成分党信任感",
+                "改得更高级，不要像硬广",
+                "帮我生成3个标题"
+              ]).map(item => `<button class="secondary-btn" type="button" data-chat-starter="${TextToolkit.escapeHtml(item)}">${TextToolkit.escapeHtml(item)}</button>`).join("")}
+            </div>
+            <div class="chat-log" id="rewriteChatLog">${this.renderChatLog()}</div>
+            <label>追问内容<textarea id="rewriteChatInput" maxlength="1000" placeholder="例如：帮我改得更像小红书，但不要太假"></textarea></label>
+            <div class="form-actions">
+              <button class="primary-btn" type="button" id="rewriteChatSend">发送追问</button>
+            </div>
+          </section>
+          <section class="card">
+            <h2>导出操作</h2>
+            <div class="form-actions">
+              <button class="secondary-btn" data-copy="highTrust">复制高信任版</button>
+              <button class="secondary-btn" data-copy="highConversion">复制高转化版</button>
+              <button class="secondary-btn" data-copy="seeding">复制种草真实版</button>
+              <button class="secondary-btn" data-copy="gentleUrgency">复制温和紧迫版</button>
+              <button class="secondary-btn" data-copy="platform">复制平台适配版</button>
+              <button class="secondary-btn" data-copy="report">复制完整报告</button>
+              <button class="primary-btn" data-download="report">下载报告</button>
+              <button class="secondary-btn" data-stage="report">返回查看结构化报告</button>
+            </div>
+          </section>
+        `;
+      },
+      renderChatLog() {
+        if (!this.appState.chatHistory.length) return `<p class="subcopy">暂无追问记录。</p>`;
+        return this.appState.chatHistory.map(item => `
+          <div class="chat-message ${item.role}">
+            <strong>${item.role === "user" ? "你" : "AdTrust AI"}</strong>
+            <span>${TextToolkit.escapeHtml(item.content)}</span>
+          </div>
+        `).join("");
+      },
+      applyChatStarter(message) {
+        const input = document.querySelector("#rewriteChatInput");
+        if (input) input.value = message;
+      },
+      async sendRewriteChat() {
+        const input = document.querySelector("#rewriteChatInput");
+        const log = document.querySelector("#rewriteChatLog");
+        const userMessage = input?.value.trim();
+        if (!userMessage) {
+          this.toast("请先输入追问内容");
+          return;
+        }
+        this.appState.chatHistory.push({ role: "user", content: userMessage });
+        if (log) log.innerHTML = this.renderChatLog();
+        input.value = "";
+        try {
+          const reply = await AuditService.rewriteChat({
+            auditResult: this.appState.result,
+            userMessage,
+            history: this.appState.chatHistory.map(item => ({ role: item.role, content: item.content }))
+          });
+          const content = `${reply.reply || "已生成新文案"}\n\n${reply.newRewrite || ""}\n\n${(reply.changeNotes || []).map(item => `- ${item}`).join("\n")}`;
+          this.appState.chatHistory.push({ role: "assistant", content });
+          if (reply.newRewrite) {
+            this.appState.result.rewrites.platformVersion = reply.newRewrite;
+            this.renderRewrite(this.appState.result);
+          } else if (log) {
+            log.innerHTML = this.renderChatLog();
+          }
+          this.toast("已生成追问改写");
+        } catch (error) {
+          this.appState.chatHistory.push({ role: "assistant", content: "继续追问暂不可用，请稍后再试。" });
+          if (log) log.innerHTML = this.renderChatLog();
+        }
+      },
+      gauge(label, score, level, color) {
+        return `<div class="gauge" style="--value:${score};--gauge-color:${color}"><div class="gauge-ring"><strong>${score}</strong></div><span>${label}<br>${level}</span></div>`;
+      },
+      metricLevel(score) {
+        if (score >= 85) return "优秀";
+        if (score >= 70) return "较好";
+        if (score >= 55) return "待优化";
+        return "需重点优化";
+      },
+      summarySentence(result) {
+        const profile = result.consumerProfile;
+        const firstLoss = result.conversionLosses[0] || "建议进一步强化证据、场景和行动入口。";
+        return `目标人群更可能关注“${profile.mainConcerns}”，当前优先优化方向是：${firstLoss}`;
+      },
+      meta(label, value) {
+        return `<div class="meta"><span>${label}</span><strong>${TextToolkit.escapeHtml(value)}</strong></div>`;
+      },
+      renderMetricBars(metrics) {
+        const items = [
+          ["消费者信任度", metrics.trustScore, "衡量广告是否真实、可信、有证据、有透明度。", "var(--trust-cyan)"],
+          ["转化吸引力", metrics.conversionAppeal, "衡量文案是否具备购买动机、行动召唤和情绪推动。", "var(--conversion-gold)"],
+          ["圈层匹配度", metrics.audienceFit, "衡量语言是否贴近目标消费者的偏好和平台语境。", "var(--indigo)"],
+          ["卖点清晰度", metrics.sellingPointClarity, "衡量用户能否快速理解产品价值和选择理由。", "var(--trust-cyan)"],
+          ["合规安全度", metrics.complianceSafety, "衡量是否存在明显法律或平台表达底线问题。", "var(--risk-rose)"]
+        ];
+        return items.map(([label, value, explain, color]) => `
+          <div class="dimension">
+            <div class="dimension-head"><span>${label}</span><span>${value}/100 · ${this.metricLevel(value)}</span></div>
+            <div class="bar-track"><div class="bar" style="width:${value}%;--bar-color:${color}"></div></div>
+            <p class="reason">${explain}</p>
+          </div>
+        `).join("");
+      },
+      renderFrictionCards(items) {
+        return items.map(item => `
+          <article class="top-risk-card ${item.complianceBaseline === "是" ? "high" : "medium"}">
+            <h3>${TextToolkit.escapeHtml(item.name)}</h3>
+            <span class="status-label ${item.complianceBaseline === "是" ? "bad" : "mid"}">信任阻碍</span>
+            <p class="reason"><strong>对信任的影响：</strong>${TextToolkit.escapeHtml(item.trustImpact)}</p>
+            <p class="reason"><strong>对转化的影响：</strong>${TextToolkit.escapeHtml(item.conversionImpact)}</p>
+            <p class="reason"><strong>是否涉及合规底线：</strong>${TextToolkit.escapeHtml(item.complianceBaseline)}</p>
+            <p class="reason"><strong>优化建议：</strong>${TextToolkit.escapeHtml(item.suggestion)}</p>
+          </article>
+        `).join("");
+      },
+      renderMarketingChecklist(result) {
+        const checks = [
+          ["产品卖点是否清晰", result.metrics.sellingPointClarity >= 70, "卖点越具体，用户越容易快速理解价值。"],
+          ["证明材料是否充分", !!result.request.proofMaterials.trim(), "补充检测、评价、销量或活动规则可提升信任度。"],
+          ["行动召唤是否明确", result.metrics.conversionAppeal >= 70, "明确下一步动作有助于降低转化流失。"],
+          ["圈层语言是否匹配", result.metrics.audienceFit >= 70, "平台和人群语言越贴近，代入感越强。"],
+          ["合规底线是否可控", result.metrics.complianceSafety >= 70, "明显底线表达需在发布前处理。"]
+        ];
+        return checks.map(([item, passed, reason]) => `<li><span class="status-dot ${passed ? "pass" : "fail"}">${passed ? "✓" : "!"}</span><span><strong>${item}</strong><br>${reason}</span></li>`).join("");
+      },
+      goalLabel(value) {
+        return {
+          seeding: "种草",
+          promotion: "促销转化",
+          live: "直播带货",
+          launch: "新品上市",
+          trust_repair: "品牌信任修复",
+          private_conversion: "私域社群转化"
+        }[value] || "种草";
+      },
+      complianceLabel(value) {
+        return {
+          loose: "宽松：保留更多营销张力",
+          balanced: "平衡：兼顾转化和可信",
+          strict: "严格：适合高风险行业"
+        }[value] || "平衡：兼顾转化和可信";
+      },
+      renderRiskSummary(result) {
+        if (!result.riskItems.length) return `<span class="tag">暂无明显风险</span>`;
+        const counts = {};
+        result.riskItems.flatMap(item => item.riskTypes).forEach(type => {
+          counts[type] = (counts[type] || 0) + 1;
+        });
+        return Object.entries(counts).map(([type, count]) => `<span class="tag danger">${TextToolkit.escapeHtml(type)} ${count}处</span>`).join("");
+      },
+      renderRiskItems(items) {
+        if (!items.length) {
+          return `<div class="rewrite-text">暂无明显信任阻碍点。仍建议发布前补充真实证据、适用条件和必要免责声明。</div>`;
+        }
+        return items.map(item => `
+          <article class="risk-item ${item.riskLevel === "高" ? "high" : "medium"}">
+            <p class="sentence">${TextToolkit.escapeHtml(item.sentence)}</p>
+            <div class="tag-row">${item.riskTypes.map(type => `<span class="tag ${item.riskLevel === "高" ? "danger" : "warn"}">${TextToolkit.escapeHtml(type)}</span>`).join("")}<span class="tag">${item.riskLevel}风险</span></div>
+            <p class="reason">${TextToolkit.escapeHtml(item.reason)}</p>
+            <div class="tag-row">${item.affectedDimensionLabels.map(label => `<span class="tag">${TextToolkit.escapeHtml(label)}</span>`).join("")}</div>
+            <p class="reason">需要补充：${TextToolkit.escapeHtml(item.evidenceNeeded || "暂无")}</p>
+            <div class="rewrite-text">${TextToolkit.escapeHtml(item.rewrite)}</div>
+          </article>
+        `).join("");
+      },
+      renderTopRisks(result) {
+        if (!result.riskItems.length) {
+          return `<article class="top-risk-card low"><h3>暂无明显主要风险</h3><span class="status-label good">低风险</span><p class="reason">建议继续补充真实证据、适用条件和发布前复核记录。</p></article>`;
+        }
+        const levelWeight = { "高": 3, "中": 2, "低": 1 };
+        const items = result.riskItems.slice().sort((a, b) => levelWeight[b.riskLevel] - levelWeight[a.riskLevel]).slice(0, 3);
+        return items.map(item => `
+          <article class="top-risk-card ${item.riskLevel === "高" ? "high" : item.riskLevel === "中" ? "medium" : "low"}">
+            <h3>${TextToolkit.escapeHtml(item.riskTypes[0] || "内容风险")}</h3>
+            <span class="status-label ${item.riskLevel === "高" ? "bad" : item.riskLevel === "中" ? "mid" : "good"}">${item.riskLevel}风险</span>
+            <p class="reason"><strong>影响维度：</strong>${TextToolkit.escapeHtml(item.affectedDimensionLabels.join("、"))}</p>
+            <p class="reason"><strong>主要原因：</strong>${TextToolkit.escapeHtml(item.reason)}</p>
+            <p class="reason"><strong>优先建议：</strong>${TextToolkit.escapeHtml(item.guidance || item.rewrite)}</p>
+          </article>
+        `).join("");
+      },
+      renderRiskDimensions(dimensions) {
+        const explain = {
+          complianceExpression: "绝对化表达、功效承诺越多，该维度越高。",
+          factualEvidence: "背书、数据、专家、检测来源不清会推高该分。",
+          consumerMisleading: "效果承诺、焦虑话术和价格压力会影响消费者判断。",
+          brandTrustRisk: "不透明、夸张或虚构表达会削弱品牌可信度。",
+          platformRisk: "限时价格、导购属性和平台规则相关表达会提高风险。"
+        };
+        return Object.entries(dimensions).map(([key, value]) => {
+          const color = value >= 70 ? "var(--red)" : value >= 40 ? "var(--amber)" : "var(--green)";
+          return `
+            <div class="dimension">
+              <div class="dimension-head"><span>${RiskDimensionMeta[key].label}</span><span>${value}/100</span></div>
+              <div class="bar-track"><div class="bar" style="width:${value}%;--bar-color:${color}"></div></div>
+              <p class="reason">${explain[key]}</p>
+            </div>
+          `;
+        }).join("");
+      },
+      renderTrustCards(dimensions) {
+        const advice = {
+          authenticity: "减少泛化体验和虚构场景，保留真实使用条件。",
+          evidence: "补充数据来源、检测依据、样本范围或背书证明。",
+          transparency: "明确广告、合作、试用、赞助或购买引导关系。",
+          restraint: "减少绝对化、功效承诺和焦虑营销。",
+          brandConsistency: "让语气更符合品牌定位，避免过度强推。"
+        };
+        return Object.entries(dimensions).map(([key, value]) => {
+          const status = value >= 80 ? "优秀" : value >= 60 ? "一般" : "待优化";
+          const cls = value >= 80 ? "good" : value >= 60 ? "mid" : "bad";
+          return `
+            <article class="trust-card">
+              <div class="trust-score"><h3>${TrustDimensionMeta[key].label}</h3><strong>${value}</strong></div>
+              <span class="status-label ${cls}">${status}</span>
+              <p class="reason">${advice[key]}</p>
+            </article>
+          `;
+        }).join("");
+      },
+      renderRiskTable(items) {
+        if (!items.length) {
+          return `<div class="rewrite-text">暂无明显信任阻碍点。仍建议发布前补充真实证据、适用条件和必要免责声明。</div>`;
+        }
+        return `
+          <table class="risk-table">
+            <thead>
+              <tr>
+                <th>原句</th>
+                <th>风险标签</th>
+                <th>等级</th>
+                <th>风险原因</th>
+                <th>需要补充的证据</th>
+                <th>建议改写</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map(item => `
+                <tr class="${item.riskLevel === "高" ? "high" : item.riskLevel === "中" ? "medium" : "low"}">
+                  <td>${TextToolkit.escapeHtml(item.sentence)}</td>
+                  <td><div class="tag-row">${item.riskTypes.map(type => `<span class="tag ${item.riskLevel === "高" ? "danger" : "warn"}">${TextToolkit.escapeHtml(type)}</span>`).join("")}</div></td>
+                  <td><span class="status-label ${item.riskLevel === "高" ? "bad" : item.riskLevel === "中" ? "mid" : "good"}">${item.riskLevel}</span></td>
+                  <td>${TextToolkit.escapeHtml(item.reason)}</td>
+                  <td>${TextToolkit.escapeHtml(item.evidenceNeeded || "暂无")}</td>
+                  <td>${TextToolkit.escapeHtml(item.rewrite)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      },
+      renderDimensions(dimensions, meta, color) {
+        return Object.entries(dimensions).map(([key, value]) => `
+          <div class="dimension">
+            <div class="dimension-head"><span>${meta[key].label}</span><span>${value}/100</span></div>
+            <div class="bar-track"><div class="bar" style="width:${value}%;--bar-color:${color}"></div></div>
+            <p class="reason">${meta[key].label}权重 ${meta[key].weight}，分值由相关风险类型和出现频次计算。</p>
+          </div>
+        `).join("");
+      },
+      renderChecklist(items) {
+        return items.map(item => `<li><span class="status-dot ${item.passed ? "pass" : "fail"}">${item.passed ? "✓" : "!"}</span><span>${TextToolkit.escapeHtml(item.item)}</span></li>`).join("");
+      },
+      rewriteCard(title, note, text, key, meta = []) {
+        const metaLabels = ["适用平台", "适合人群", "保留的营销张力", "降低的信任阻碍", "转化逻辑说明"];
+        return `
+          <article class="rewrite-card">
+            <h2>${title}</h2>
+            <p class="subcopy">${note}</p>
+            <div class="rewrite-text">${TextToolkit.escapeHtml(text)}</div>
+            <div class="tag-row">${meta.map((item, index) => `<span class="tag">${metaLabels[index]}：${TextToolkit.escapeHtml(item)}</span>`).join("")}</div>
+            <button class="secondary-btn" data-copy="${key}">复制改写</button>
+          </article>
+        `;
+      },
+      renderExamples() {
+        const grid = document.querySelector("#exampleGrid");
+        grid.innerHTML = SampleRepository.items.map((sample, index) => {
+          const result = MarketingOptimizer.run({
+            text: sample.text,
+            productName: sample.title,
+            productCategory: sample.industry,
+            priceRange: index === 0 ? "99-199元" : index === 1 ? "体验课29元起" : "活动价按页面为准",
+            sellingPoints: index === 0 ? "肤感清爽\n主打提亮护理\n适合日常通勤" : index === 1 ? "一对一辅导\n课程规划清晰\n适合阶段提升" : "代餐场景\n便携冲泡\n活动价权益",
+            proofMaterials: "可补充：用户反馈、活动规则、产品说明或检测依据",
+            adGoal: index === 1 ? "promotion" : "seeding",
+            imageType: "poster",
+            imageText: "",
+            images: [],
+            targetPlatform: index === 0 ? "xiaohongshu" : index === 1 ? "wechat" : "douyin",
+            targetAudience: index === 0 ? "ingredient" : index === 1 ? "student" : "price_sensitive",
+            marketingStyle: index === 1 ? "conversion" : "seeding",
+            complianceStrength: "balanced",
+            contentType: sample.contentType,
+            industry: sample.industry,
+            mode: "deep",
+            tone: "balanced"
+          });
+          return `
+            <article class="example-card">
+              <span class="section-label">案例${index + 1}</span>
+              <h2>${sample.title}</h2>
+              <h3>原文</h3>
+              <blockquote>${TextToolkit.escapeHtml(sample.text)}</blockquote>
+              <div class="score-pair">${this.gauge("消费者信任度", result.metrics.trustScore, this.metricLevel(result.metrics.trustScore), "var(--trust-cyan)")}${this.gauge("转化吸引力", result.metrics.conversionAppeal, this.metricLevel(result.metrics.conversionAppeal), "var(--conversion-gold)")}</div>
+              <h3>信任阻碍点</h3>
+              <div class="tag-row">${result.frictionItems.slice(0, 5).map(item => `<span class="tag warn">${TextToolkit.escapeHtml(item.name)}</span>`).join("")}</div>
+              <h3>改写前后对比</h3>
+              <div class="compare">
+                <div class="rewrite-text">${TextToolkit.escapeHtml(result.originalText)}</div>
+                <div class="rewrite-text">${TextToolkit.escapeHtml(result.rewrites.highConversionVersion)}</div>
+              </div>
+              <h3>信任与合规底线清单</h3>
+              <ul class="checklist">${this.renderMarketingChecklist(result)}</ul>
+              <button class="primary-btn" data-load-sample="${index}">载入工作台</button>
+            </article>
+          `;
+        }).join("");
+      },
+      loadSample(index) {
+        const sample = SampleRepository.items[index];
+        document.querySelector("#productName").value = sample.title.replace("广告", "").replace("笔记", "");
+        document.querySelector("#productCategory").value = sample.industry;
+        document.querySelector("#priceRange").value = index === 0 ? "99-199元" : index === 1 ? "体验课29元起" : "活动价按页面为准";
+        document.querySelector("#sellingPoints").value = index === 0 ? "肤感清爽\n主打提亮护理\n适合日常通勤" : index === 1 ? "一对一辅导\n课程规划清晰\n适合阶段提升" : "代餐场景\n便携冲泡\n活动价权益";
+        document.querySelector("#proofMaterials").value = "可补充：用户反馈、活动规则、产品说明或检测依据";
+        document.querySelector("#adText").value = sample.text;
+        document.querySelector("#adGoal").value = index === 1 ? "promotion" : "seeding";
+        this.updateCharCount();
+        this.setChoice("targetPlatform", index === 0 ? "xiaohongshu" : index === 1 ? "wechat" : "douyin");
+        this.setChoice("targetAudience", index === 0 ? "ingredient" : index === 1 ? "student" : "price_sensitive");
+        this.setChoice("marketingStyle", index === 1 ? "conversion" : "seeding");
+        this.setChoice("complianceStrength", "balanced");
+        this.switchPage("workspace");
+        this.switchStage("input");
+        this.toast("示例已填入");
+      },
+      clearForm() {
+        document.querySelector("#adText").value = "";
+        ["productName", "priceRange", "sellingPoints", "proofMaterials", "imageText"].forEach(id => {
+          document.querySelector(`#${id}`).value = "";
+        });
+        document.querySelector("#imageInput").value = "";
+        document.querySelector("#imagePreviewGrid").innerHTML = "";
+        this.appState.request.images = [];
+        this.appState.chatHistory = [];
+        this.updateCharCount();
+        this.setChoice("targetPlatform", "general");
+        this.setChoice("targetAudience", "auto");
+        this.setChoice("marketingStyle", "trustworthy");
+        this.setChoice("complianceStrength", "balanced");
+        this.appState.result = null;
+        document.querySelector("#reportBody").innerHTML = `<div class="empty"><div><div class="seal">诊</div><h2>暂无诊断结果</h2><p class="subcopy">请先提交产品信息和广告素材。</p></div></div>`;
+        document.querySelector("#rewriteBody").innerHTML = `<div class="empty"><div><div class="seal">写</div><h2>暂无改写结果</h2><p class="subcopy">请先完成一次信任转化诊断。</p></div></div>`;
+        this.switchStage("input");
+      },
+      copyByKey(key) {
+        const map = {
+          highTrust: this.appState.result.rewrites.highTrustVersion,
+          highConversion: this.appState.result.rewrites.highConversionVersion,
+          seeding: this.appState.result.rewrites.seedingRealVersion,
+          gentleUrgency: this.appState.result.rewrites.gentleUrgencyVersion,
+          platform: this.appState.result.rewrites.platformVersion,
+          report: this.appState.result.markdownReport
+        };
+        navigator.clipboard.writeText(map[key]).then(() => this.toast("已复制"));
+      },
+      downloadMarkdown() {
+        const blob = new Blob([this.appState.result.markdownReport], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "AdTrust-AI-信任转化优化报告.md";
+        link.click();
+        URL.revokeObjectURL(url);
+      },
+      togglePresentationMode() {
+        document.body.classList.toggle("presentation-mode");
+        this.toast(document.body.classList.contains("presentation-mode") ? "已进入展示模式" : "已退出展示模式");
+      },
+      loadHistory() {
+        try {
+          this.appState.history = JSON.parse(localStorage.getItem("adtrust-history") || "[]");
+        } catch (error) {
+          this.appState.history = [];
+          localStorage.removeItem("adtrust-history");
+        }
+      },
+      saveHistory(result) {
+        const record = {
+          id: result.id,
+          createdAt: result.createdAt,
+          textPreview: (result.request.productName || result.originalText || "未命名广告").slice(0, 42),
+          riskScore: result.metrics.complianceSafety,
+          trustScore: result.metrics.trustScore,
+          riskLevel: `信任${result.metrics.trustScore} / 转化${result.metrics.conversionAppeal}`,
+          result
+        };
+        this.appState.history = [record, ...this.appState.history.filter(item => item.id !== record.id)].slice(0, 5);
+        localStorage.setItem("adtrust-history", JSON.stringify(this.appState.history));
+        this.renderHistory();
+      },
+      renderHistory() {
+        const html = this.appState.history.length
+          ? this.appState.history.map(item => `
+            <button class="history-item" type="button" data-history-id="${item.id}">
+              <strong>${TextToolkit.escapeHtml(item.textPreview)}${item.textPreview.length >= 42 ? "..." : ""}</strong>
+              <span>信任 ${item.trustScore} · 合规安全 ${item.riskScore} · ${item.riskLevel}</span>
+            </button>
+          `).join("")
+          : `<p class="subcopy">暂无本地优化记录。记录只保存在当前浏览器，不会上传云端。</p>`;
+        document.querySelectorAll("#homeHistoryList, #workspaceHistoryList").forEach(container => {
+          container.innerHTML = html;
+        });
+      },
+      loadHistoryResult(id) {
+        const record = this.appState.history.find(item => item.id === id);
+        if (!record) return;
+        this.appState.result = record.result;
+        this.appState.chatHistory = [];
+        const request = record.result.request || {};
+        document.querySelector("#adText").value = record.result.originalText || request.text || "";
+        document.querySelector("#productName").value = request.productName || "";
+        document.querySelector("#productCategory").value = request.productCategory || "beauty";
+        document.querySelector("#priceRange").value = request.priceRange || "";
+        document.querySelector("#sellingPoints").value = request.sellingPoints || "";
+        document.querySelector("#proofMaterials").value = request.proofMaterials || "";
+        document.querySelector("#adGoal").value = request.adGoal || "seeding";
+        document.querySelector("#imageType").value = request.imageType || "poster";
+        document.querySelector("#imageText").value = request.imageText || "";
+        this.appState.request.images = request.images || [];
+        document.querySelector("#imagePreviewGrid").innerHTML = this.appState.request.images.map(image => `
+          <div class="image-preview">
+            <img src="${image.dataUrl}" alt="上传图片预览" />
+            <span>${TextToolkit.escapeHtml(image.name)}</span>
+          </div>
+        `).join("");
+        this.updateCharCount();
+        this.setChoice("targetPlatform", request.targetPlatform || "general");
+        this.setChoice("targetAudience", request.targetAudience || "auto");
+        this.setChoice("marketingStyle", request.marketingStyle || "trustworthy");
+        this.setChoice("complianceStrength", request.complianceStrength || "balanced");
+        this.renderReport(record.result);
+        this.renderRewrite(record.result);
+        this.switchPage("workspace");
+        this.switchStage("report");
+      },
+      toast(message) {
+        const toast = document.querySelector("#toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+    };
+
+    UI.init();
+  </script>
+</body>
+</html>

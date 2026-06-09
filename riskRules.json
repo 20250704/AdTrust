@@ -1,0 +1,92 @@
+[
+  {
+    "id": "absolute-expression",
+    "category": "绝对化表达",
+    "keywords": ["全网第一", "全行业第一", "第一", "最好", "最佳", "顶级", "永久有效", "史上最强", "全网最低", "绝对有效", "100%"],
+    "description": "使用绝对化、排他性或无法证明的确定性表达，容易形成过度承诺。",
+    "defaultRiskLevel": "高",
+    "rewriteGuidance": "弱化排名和绝对承诺，改为可验证、可解释的相对表达。",
+    "affectedDimensions": ["complianceExpression", "consumerMisleading"],
+    "examples": ["全网第一美白神器", "100%有效", "史上最强课程"]
+  },
+  {
+    "id": "exaggerated-effect",
+    "category": "夸大效果",
+    "keywords": ["3天", "三天", "一次解决", "立刻", "马上见效", "白一个度", "明显变化", "效果惊人", "30天"],
+    "description": "对效果达成时间、效果强度或结果确定性作出过度承诺。",
+    "defaultRiskLevel": "高",
+    "rewriteGuidance": "改为“有助于”“部分用户反馈”“持续使用后可能感受到变化”。",
+    "affectedDimensions": ["consumerMisleading", "brandTrustRisk"],
+    "examples": ["3天白一个度", "一次解决所有问题", "30天必见效"]
+  },
+  {
+    "id": "efficacy-promise",
+    "category": "功效承诺",
+    "keywords": ["治愈", "根治", "包瘦", "喝了就能瘦", "祛斑必成", "保证成绩", "必定提高", "0风险"],
+    "description": "对健康、外观、学习结果或使用效果作出确定性承诺。",
+    "defaultRiskLevel": "高",
+    "rewriteGuidance": "删除确定性功效承诺，补充适用条件和效果差异说明。",
+    "affectedDimensions": ["complianceExpression", "consumerMisleading", "brandTrustRisk"],
+    "examples": ["喝了就能瘦", "成绩必定提高", "0风险"]
+  },
+  {
+    "id": "insufficient-evidence",
+    "category": "证据不足",
+    "keywords": ["权威认证", "专家推荐", "名师", "明星同款", "销量第一", "通过率", "99%用户", "检测报告"],
+    "description": "涉及权威背书、数据排名、专家推荐或检测证明，但缺少来源和口径。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "补充来源、统计口径、专家身份、检测条件，或删除无法验证的背书。",
+    "affectedDimensions": ["factualEvidence", "brandTrustRisk"],
+    "examples": ["权威认证", "专家推荐", "通过率全行业第一"]
+  },
+  {
+    "id": "price-misleading",
+    "category": "价格误导",
+    "keywords": ["最后一天", "最后3个", "今天不报", "错过再等一年", "历史最低", "全网最低价", "原价"],
+    "description": "价格对比、稀缺性或限时活动依据不清，容易造成压力销售。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "明确活动时间、数量依据、价格口径，避免制造虚假稀缺感。",
+    "affectedDimensions": ["platformRisk", "consumerMisleading"],
+    "examples": ["最后一天", "全网最低价", "最后3个名额"]
+  },
+  {
+    "id": "ad-transparency",
+    "category": "广告属性不透明",
+    "keywords": ["购买链接", "下单", "领取优惠", "种草", "带货", "同款链接"],
+    "description": "内容带有明显导购意图，但推广、合作或购买引导关系说明不足。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "增加推广、合作、试用、赞助或购买引导说明。",
+    "affectedDimensions": ["brandTrustRisk", "platformRisk"],
+    "examples": ["种草内容附购买链接", "同款链接在评论区"]
+  },
+  {
+    "id": "review-misuse",
+    "category": "用户评价滥用",
+    "keywords": ["所有朋友", "大家都说", "用了都说好", "真实反馈", "人人都适合"],
+    "description": "用个别或泛化评价代表普遍结果，容易抬高消费者预期。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "改为“部分用户反馈”，并避免扩大样本代表性。",
+    "affectedDimensions": ["brandTrustRisk", "factualEvidence"],
+    "examples": ["所有朋友都说好", "人人都适合"]
+  },
+  {
+    "id": "ai-content-trust",
+    "category": "AI生成内容信任风险",
+    "keywords": ["虚构", "模拟用户", "生成评价", "假设专家", "前后对比图"],
+    "description": "涉及可能无法验证的用户、专家、测评或图像描述。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "仅保留真实可验证信息，或明确说明为模拟示例。",
+    "affectedDimensions": ["brandTrustRisk", "factualEvidence"],
+    "examples": ["虚构专家推荐", "模拟用户评价", "前后对比图"]
+  },
+  {
+    "id": "anxiety-marketing",
+    "category": "焦虑营销",
+    "keywords": ["再不买", "亏大了", "不买就落后", "没机会", "闭眼入"],
+    "description": "通过焦虑、错失感或强推销话术促使用户立即行动。",
+    "defaultRiskLevel": "中",
+    "rewriteGuidance": "改为理性推荐，强调适用场景和选择理由。",
+    "affectedDimensions": ["consumerMisleading", "brandTrustRisk"],
+    "examples": ["再不买就亏大了", "今天不报就没机会了"]
+  }
+]

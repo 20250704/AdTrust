@@ -1,0 +1,25 @@
+{
+  "name": "adtrust-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "test": "node --check server/server.js"
+  },
+  "dependencies": {
+    "@tesseract.js-data/chi_sim": "^1.0.0",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "openai": "^4.86.1",
+    "tesseract.js": "^7.0.0",
+    "zod": "^3.24.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
